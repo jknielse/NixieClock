@@ -1,0 +1,317 @@
+(pcb /Users/jacob_nielsen/Documents/Nixie/NixieDriverBoard/NixieDriverBoard.dsn
+  (parser
+    (string_quote ")
+    (space_in_quoted_tokens on)
+    (host_cad "KiCad's Pcbnew")
+    (host_version "(2015-10-31 BZR 6288)-product")
+  )
+  (resolution um 10)
+  (unit um)
+  (structure
+    (layer F.Cu
+      (type signal)
+      (property
+        (index 0)
+      )
+    )
+    (layer B.Cu
+      (type signal)
+      (property
+        (index 1)
+      )
+    )
+    (boundary
+      (path pcb 0  129540 -77470  129540 -138430  177800 -138430  177800 -77470
+            129540 -77470  129540 -77470)
+    )
+    (via "Via[0-1]_700:400_um")
+    (rule
+      (width 750)
+      (clearance 250.1)
+      (clearance 250.1 (type default_smd))
+      (clearance 62.5 (type smd_smd))
+    )
+  )
+  (placement
+    (component "Housings_DIP:DIP-16_W7.62mm_LongPads"
+      (place 74HC1 144780 -107950 front 90 (PN 74HC595))
+      (place K155ID1 144780 -93980 front 90 (PN K155ID1))
+      (place K155ID2 144780 -121920 front 90 (PN K155ID1))
+    )
+    (component Socket_Strips:Socket_Strip_Angled_1x06
+      (place CONN1 139700 -97790 front 270 (PN CONN_01X06))
+      (place CONN2 167640 -97790 back 90 (PN CONN_01X06))
+    )
+    (component Socket_Strips:Socket_Strip_Straight_1x12
+      (place NIXIE1 139700 -81280 front 0 (PN "NIXIE (1)"))
+      (place NIXIE2 167640 -127000 front 180 (PN "NIXIE (2)"))
+    )
+    (component Resistors_ThroughHole:Resistor_Horizontal_RM15mm
+      (place R1 172720 -87630 front 270 (PN R))
+      (place R2 134620 -120650 front 90 (PN R))
+    )
+  )
+  (library
+    (image "Housings_DIP:DIP-16_W7.62mm_LongPads"
+      (outline (path signal 50  -1400 2450  -1400 -20250))
+      (outline (path signal 50  9000 2450  9000 -20250))
+      (outline (path signal 50  -1400 2450  9000 2450))
+      (outline (path signal 50  -1400 -20250  9000 -20250))
+      (outline (path signal 150  135 2295  135 1025))
+      (outline (path signal 150  7485 2295  7485 1025))
+      (outline (path signal 150  7485 -20075  7485 -18805))
+      (outline (path signal 150  135 -20075  135 -18805))
+      (outline (path signal 150  135 2295  7485 2295))
+      (outline (path signal 150  135 -20075  7485 -20075))
+      (outline (path signal 150  135 1025  -1150 1025))
+      (pin Oval[A]Pad_2300x1600_um 1 0 0)
+      (pin Oval[A]Pad_2300x1600_um 2 0 -2540)
+      (pin Oval[A]Pad_2300x1600_um 3 0 -5080)
+      (pin Oval[A]Pad_2300x1600_um 4 0 -7620)
+      (pin Oval[A]Pad_2300x1600_um 5 0 -10160)
+      (pin Oval[A]Pad_2300x1600_um 6 0 -12700)
+      (pin Oval[A]Pad_2300x1600_um 7 0 -15240)
+      (pin Oval[A]Pad_2300x1600_um 8 0 -17780)
+      (pin Oval[A]Pad_2300x1600_um 9 7620 -17780)
+      (pin Oval[A]Pad_2300x1600_um 10 7620 -15240)
+      (pin Oval[A]Pad_2300x1600_um 11 7620 -12700)
+      (pin Oval[A]Pad_2300x1600_um 12 7620 -10160)
+      (pin Oval[A]Pad_2300x1600_um 13 7620 -7620)
+      (pin Oval[A]Pad_2300x1600_um 14 7620 -5080)
+      (pin Oval[A]Pad_2300x1600_um 15 7620 -2540)
+      (pin Oval[A]Pad_2300x1600_um 16 7620 0)
+    )
+    (image Socket_Strips:Socket_Strip_Angled_1x06
+      (outline (path signal 50  -1750 1500  -1750 -10600))
+      (outline (path signal 50  14450 1500  14450 -10600))
+      (outline (path signal 50  -1750 1500  14450 1500))
+      (outline (path signal 50  -1750 -10600  14450 -10600))
+      (outline (path signal 150  13970 -10100  13970 -1270))
+      (outline (path signal 150  11430 -10100  13970 -10100))
+      (outline (path signal 150  11430 -1270  13970 -1270))
+      (outline (path signal 150  8890 -1270  11430 -1270))
+      (outline (path signal 150  8890 -10100  11430 -10100))
+      (outline (path signal 150  11430 -10100  11430 -1270))
+      (outline (path signal 150  8890 -10100  8890 -1270))
+      (outline (path signal 150  6350 -10100  8890 -10100))
+      (outline (path signal 150  6350 -1270  8890 -1270))
+      (outline (path signal 150  3810 -1270  6350 -1270))
+      (outline (path signal 150  3810 -10100  6350 -10100))
+      (outline (path signal 150  6350 -10100  6350 -1270))
+      (outline (path signal 150  3810 -10100  3810 -1270))
+      (outline (path signal 150  1270 -10100  3810 -10100))
+      (outline (path signal 150  1270 -1270  1270 -10100))
+      (outline (path signal 150  1270 -1270  3810 -1270))
+      (outline (path signal 150  -1270 -1270  1270 -1270))
+      (outline (path signal 150  0 1400  -1550 1400))
+      (outline (path signal 150  -1550 1400  -1550 0))
+      (outline (path signal 150  -1270 -1270  -1270 -10100))
+      (outline (path signal 150  -1270 -10100  1270 -10100))
+      (outline (path signal 150  1270 -10100  1270 -1270))
+      (pin Rect[A]Pad_1727.2x2032_um 1 0 0)
+      (pin Oval[A]Pad_1727.2x2032_um 2 2540 0)
+      (pin Oval[A]Pad_1727.2x2032_um 3 5080 0)
+      (pin Oval[A]Pad_1727.2x2032_um 4 7620 0)
+      (pin Oval[A]Pad_1727.2x2032_um 5 10160 0)
+      (pin Oval[A]Pad_1727.2x2032_um 6 12700 0)
+    )
+    (image Socket_Strips:Socket_Strip_Straight_1x12
+      (outline (path signal 50  -1750 1750  -1750 -1750))
+      (outline (path signal 50  29700 1750  29700 -1750))
+      (outline (path signal 50  -1750 1750  29700 1750))
+      (outline (path signal 50  -1750 -1750  29700 -1750))
+      (outline (path signal 150  1270 -1270  29210 -1270))
+      (outline (path signal 150  29210 -1270  29210 1270))
+      (outline (path signal 150  29210 1270  1270 1270))
+      (outline (path signal 150  -1550 -1550  0 -1550))
+      (outline (path signal 150  1270 -1270  1270 1270))
+      (outline (path signal 150  0 1550  -1550 1550))
+      (outline (path signal 150  -1550 1550  -1550 -1550))
+      (pin Rect[A]Pad_1727.2x2032_um 1 0 0)
+      (pin Oval[A]Pad_1727.2x2032_um 2 2540 0)
+      (pin Oval[A]Pad_1727.2x2032_um 3 5080 0)
+      (pin Oval[A]Pad_1727.2x2032_um 4 7620 0)
+      (pin Oval[A]Pad_1727.2x2032_um 5 10160 0)
+      (pin Oval[A]Pad_1727.2x2032_um 6 12700 0)
+      (pin Oval[A]Pad_1727.2x2032_um 7 15240 0)
+      (pin Oval[A]Pad_1727.2x2032_um 8 17780 0)
+      (pin Oval[A]Pad_1727.2x2032_um 9 20320 0)
+      (pin Oval[A]Pad_1727.2x2032_um 10 22860 0)
+      (pin Oval[A]Pad_1727.2x2032_um 11 25400 0)
+      (pin Oval[A]Pad_1727.2x2032_um 12 27940 0)
+    )
+    (image Resistors_ThroughHole:Resistor_Horizontal_RM15mm
+      (outline (path signal 150  -5080 1270  -5080 -1270))
+      (outline (path signal 150  -5080 -1270  5080 -1270))
+      (outline (path signal 150  5080 -1270  5080 1270))
+      (outline (path signal 150  5080 1270  -5080 1270))
+      (outline (path signal 150  6350 0  5080 0))
+      (outline (path signal 150  -6350 0  -5080 0))
+      (pin Round[A]Pad_1998.98_um 1 -7500 0)
+      (pin Round[A]Pad_1998.98_um 2 7500 0)
+    )
+    (padstack Round[A]Pad_1998.98_um
+      (shape (circle F.Cu 1998.98))
+      (shape (circle B.Cu 1998.98))
+      (attach off)
+    )
+    (padstack Oval[A]Pad_2300x1600_um
+      (shape (path F.Cu 1600  -350 0  350 0))
+      (shape (path B.Cu 1600  -350 0  350 0))
+      (attach off)
+    )
+    (padstack Oval[A]Pad_1727.2x2032_um
+      (shape (path F.Cu 1727.2  0 -152.4  0 152.4))
+      (shape (path B.Cu 1727.2  0 -152.4  0 152.4))
+      (attach off)
+    )
+    (padstack Rect[A]Pad_1727.2x2032_um
+      (shape (rect F.Cu -863.6 -1016 863.6 1016))
+      (shape (rect B.Cu -863.6 -1016 863.6 1016))
+      (attach off)
+    )
+    (padstack "Via[0-1]_700:400_um"
+      (shape (circle F.Cu 700))
+      (shape (circle B.Cu 700))
+      (attach off)
+    )
+  )
+  (network
+    (net "Net-(74HC1-Pad1)"
+      (pins 74HC1-1 K155ID1-6)
+    )
+    (net "Net-(74HC1-Pad2)"
+      (pins 74HC1-2 K155ID1-7)
+    )
+    (net "Net-(74HC1-Pad3)"
+      (pins 74HC1-3 K155ID1-4)
+    )
+    (net "Net-(74HC1-Pad4)"
+      (pins 74HC1-4 K155ID2-3)
+    )
+    (net "Net-(74HC1-Pad5)"
+      (pins 74HC1-5 K155ID2-6)
+    )
+    (net "Net-(74HC1-Pad6)"
+      (pins 74HC1-6 K155ID2-7)
+    )
+    (net "Net-(74HC1-Pad7)"
+      (pins 74HC1-7 K155ID2-4)
+    )
+    (net GND
+      (pins 74HC1-8 74HC1-13 CONN1-4 CONN2-4 K155ID1-12 K155ID2-12)
+    )
+    (net "Net-(74HC1-Pad9)"
+      (pins 74HC1-9 CONN2-3)
+    )
+    (net VCC
+      (pins 74HC1-10 74HC1-16 CONN1-6 CONN2-6 K155ID1-5 K155ID2-5)
+    )
+    (net /CLK
+      (pins 74HC1-11 CONN1-2 CONN2-2)
+    )
+    (net /PROP
+      (pins 74HC1-12 CONN1-1 CONN2-1)
+    )
+    (net /DATA
+      (pins 74HC1-14 CONN1-3)
+    )
+    (net "Net-(74HC1-Pad15)"
+      (pins 74HC1-15 K155ID1-3)
+    )
+    (net VDD
+      (pins CONN1-5 CONN2-5 R1-2 R2-2)
+    )
+    (net "Net-(K155ID1-Pad1)"
+      (pins K155ID1-1 NIXIE1-10)
+    )
+    (net "Net-(K155ID1-Pad2)"
+      (pins K155ID1-2 NIXIE1-11)
+    )
+    (net "Net-(K155ID1-Pad8)"
+      (pins K155ID1-8 NIXIE1-4)
+    )
+    (net "Net-(K155ID1-Pad9)"
+      (pins K155ID1-9 NIXIE1-5)
+    )
+    (net "Net-(K155ID1-Pad10)"
+      (pins K155ID1-10 NIXIE1-9)
+    )
+    (net "Net-(K155ID1-Pad11)"
+      (pins K155ID1-11 NIXIE1-8)
+    )
+    (net "Net-(K155ID1-Pad13)"
+      (pins K155ID1-13 NIXIE1-6)
+    )
+    (net "Net-(K155ID1-Pad14)"
+      (pins K155ID1-14 NIXIE1-7)
+    )
+    (net "Net-(K155ID1-Pad15)"
+      (pins K155ID1-15 NIXIE1-3)
+    )
+    (net "Net-(K155ID1-Pad16)"
+      (pins K155ID1-16 NIXIE1-2)
+    )
+    (net "Net-(K155ID2-Pad1)"
+      (pins K155ID2-1 NIXIE2-10)
+    )
+    (net "Net-(K155ID2-Pad2)"
+      (pins K155ID2-2 NIXIE2-11)
+    )
+    (net "Net-(K155ID2-Pad8)"
+      (pins K155ID2-8 NIXIE2-4)
+    )
+    (net "Net-(K155ID2-Pad9)"
+      (pins K155ID2-9 NIXIE2-5)
+    )
+    (net "Net-(K155ID2-Pad10)"
+      (pins K155ID2-10 NIXIE2-9)
+    )
+    (net "Net-(K155ID2-Pad11)"
+      (pins K155ID2-11 NIXIE2-8)
+    )
+    (net "Net-(K155ID2-Pad13)"
+      (pins K155ID2-13 NIXIE2-6)
+    )
+    (net "Net-(K155ID2-Pad14)"
+      (pins K155ID2-14 NIXIE2-7)
+    )
+    (net "Net-(K155ID2-Pad15)"
+      (pins K155ID2-15 NIXIE2-3)
+    )
+    (net "Net-(K155ID2-Pad16)"
+      (pins K155ID2-16 NIXIE2-2)
+    )
+    (net "Net-(NIXIE1-Pad1)"
+      (pins NIXIE1-1 R1-1)
+    )
+    (net "Net-(NIXIE1-Pad12)"
+      (pins NIXIE1-12)
+    )
+    (net "Net-(NIXIE2-Pad1)"
+      (pins NIXIE2-1 R2-1)
+    )
+    (net "Net-(NIXIE2-Pad12)"
+      (pins NIXIE2-12)
+    )
+    (class kicad_default "" /CLK /DATA /PROP GND "Net-(74HC1-Pad1)" "Net-(74HC1-Pad15)"
+      "Net-(74HC1-Pad2)" "Net-(74HC1-Pad3)" "Net-(74HC1-Pad4)" "Net-(74HC1-Pad5)"
+      "Net-(74HC1-Pad6)" "Net-(74HC1-Pad7)" "Net-(74HC1-Pad9)" "Net-(K155ID1-Pad1)"
+      "Net-(K155ID1-Pad10)" "Net-(K155ID1-Pad11)" "Net-(K155ID1-Pad13)" "Net-(K155ID1-Pad14)"
+      "Net-(K155ID1-Pad15)" "Net-(K155ID1-Pad16)" "Net-(K155ID1-Pad2)" "Net-(K155ID1-Pad8)"
+      "Net-(K155ID1-Pad9)" "Net-(K155ID2-Pad1)" "Net-(K155ID2-Pad10)" "Net-(K155ID2-Pad11)"
+      "Net-(K155ID2-Pad13)" "Net-(K155ID2-Pad14)" "Net-(K155ID2-Pad15)" "Net-(K155ID2-Pad16)"
+      "Net-(K155ID2-Pad2)" "Net-(K155ID2-Pad8)" "Net-(K155ID2-Pad9)" "Net-(NIXIE1-Pad1)"
+      "Net-(NIXIE1-Pad12)" "Net-(NIXIE2-Pad1)" "Net-(NIXIE2-Pad12)" VCC VDD
+      (circuit
+        (use_via Via[0-1]_700:400_um)
+      )
+      (rule
+        (width 750)
+        (clearance 250.1)
+      )
+    )
+  )
+  (wiring
+  )
+)
