@@ -33,46 +33,16 @@
     )
   )
   (placement
-    (component "IN12B:russian-nixies-IN-12"
-      (place N1 125730 -80010 front 0 (PN "IN-12B"))
-      (place N2 144780 -80010 front 0 (PN "IN-12B"))
-    )
     (component Pin_Headers:Pin_Header_Straight_1x12
       (place P1 120650 -57150 front 90 (PN CONN_01X12))
       (place P2 148590 -102870 front 270 (PN CONN_01X12))
     )
+    (component "IN12B:russian-nixies-IN-12"
+      (place N2 144780 -80010 front 0 (PN "IN-12B"))
+      (place N1 125730 -80010 front 0 (PN "IN-12B"))
+    )
   )
   (library
-    (image "IN12B:russian-nixies-IN-12"
-      (outline (path signal 254  7937.5 6667.5  7937.5 -6350))
-      (outline (path signal 254  -8890 -6189.98  -8890 6667.5))
-      (outline (path signal 254  -8890 -6189.98  -8890 -6350))
-      (outline (path signal 63.5  1796.05 0  1708.15 -555.01  1453.04 -1055.69  1055.69 -1453.04
-            555.01 -1708.15  0 -1796.05  -555.01 -1708.15  -1055.69 -1453.04
-            -1453.04 -1055.69  -1708.15 -555.01  -1796.05 0  -1708.15 555.01
-            -1453.04 1055.69  -1055.69 1453.04  -555.01 1708.15  0 1796.05
-            555.01 1708.15  1055.69 1453.04  1453.04 1055.69  1708.15 555.01))
-      (outline (path signal 127  1767.31 0  1680.82 -546.13  1429.79 -1038.8  1038.8 -1429.79
-            546.13 -1680.82  0 -1767.31  -546.13 -1680.82  -1038.8 -1429.79
-            -1429.79 -1038.8  -1680.82 -546.13  -1767.31 0  -1680.82 546.13
-            -1429.79 1038.8  -1038.8 1429.79  -546.13 1680.82  0 1767.31
-            546.13 1680.82  1038.8 1429.79  1429.79 1038.8  1680.82 546.13))
-      (outline (path signal 127  -2499.36 0  2499.36 0))
-      (outline (path signal 127  0 -2499.36  0 2499.36))
-      (pin Round[A]Pad_2540_um 0 5046.98 -4498.34)
-      (pin Round[A]Pad_2540_um 1 -4315.46 -7815.58)
-      (pin Round[A]Pad_2540_um 2 -5999.48 -4498.34)
-      (pin Round[A]Pad_2540_um 3 -6126.48 0)
-      (pin Round[A]Pad_2540_um 4 -5999.48 4498.34)
-      (pin Round[A]Pad_2540_um 5 -4315.46 7815.58)
-      (pin Round[A]Pad_2540_um 6 -317.5 8816.34)
-      (pin Round[A]Pad_2540_um 7 3680.46 7815.58)
-      (pin Round[A]Pad_2540_um 8 5046.98 4498.34)
-      (pin Round[A]Pad_2540_um 9 5173.98 0)
-      (pin Round[A]Pad_2540_um A 3680.46 -7815.58)
-      (pin Round[A]Pad_2540_um LHDP -317.5 -8816.34)
-      (pin Round[A]Pad_5500_um @1 0 0)
-    )
     (image Pin_Headers:Pin_Header_Straight_1x12
       (outline (path signal 50  -1750 1750  -1750 -29700))
       (outline (path signal 50  1750 1750  1750 -29700))
@@ -97,6 +67,24 @@
       (pin Oval[A]Pad_2032x1727.2_um 10 0 -22860)
       (pin Oval[A]Pad_2032x1727.2_um 11 0 -25400)
       (pin Oval[A]Pad_2032x1727.2_um 12 0 -27940)
+    )
+    (image "IN12B:russian-nixies-IN-12"
+      (outline (path signal 254  7937.5 6667.5  7937.5 -6350))
+      (outline (path signal 254  -8890 -6189.98  -8890 6667.5))
+      (outline (path signal 254  -8890 -6189.98  -8890 -6350))
+      (pin Round[A]Pad_2540_um 0 5046.98 -4498.34)
+      (pin Round[A]Pad_2540_um 1 -4315.46 -7815.58)
+      (pin Round[A]Pad_2540_um 2 -5999.48 -4498.34)
+      (pin Round[A]Pad_2540_um 3 -6126.48 0)
+      (pin Round[A]Pad_2540_um 4 -5999.48 4498.34)
+      (pin Round[A]Pad_2540_um 5 -4315.46 7815.58)
+      (pin Round[A]Pad_2540_um 6 -317.5 8816.34)
+      (pin Round[A]Pad_2540_um 7 3680.46 7815.58)
+      (pin Round[A]Pad_2540_um 8 5046.98 4498.34)
+      (pin Round[A]Pad_2540_um 9 5173.98 0)
+      (pin Round[A]Pad_2540_um A 3680.46 -7815.58)
+      (pin Round[A]Pad_2540_um LHDP -317.5 -8816.34)
+      (pin Round[A]Pad_5500_um @1 -340 0)
     )
     (padstack Round[A]Pad_2540_um
       (shape (circle F.Cu 2540))
@@ -126,76 +114,76 @@
   )
   (network
     (net "Net-(N1-Pad0)"
-      (pins N1-0 P1-12)
+      (pins P1-12 N1-0)
     )
     (net "Net-(N1-Pad1)"
-      (pins N1-1 P1-10)
+      (pins P1-10 N1-1)
     )
     (net "Net-(N1-Pad2)"
-      (pins N1-2 P1-9)
+      (pins P1-9 N1-2)
     )
     (net "Net-(N1-Pad3)"
-      (pins N1-3 P1-8)
+      (pins P1-8 N1-3)
     )
     (net "Net-(N1-Pad4)"
-      (pins N1-4 P1-7)
+      (pins P1-7 N1-4)
     )
     (net "Net-(N1-Pad5)"
-      (pins N1-5 P1-6)
+      (pins P1-6 N1-5)
     )
     (net "Net-(N1-Pad6)"
-      (pins N1-6 P1-5)
+      (pins P1-5 N1-6)
     )
     (net "Net-(N1-Pad7)"
-      (pins N1-7 P1-4)
+      (pins P1-4 N1-7)
     )
     (net "Net-(N1-Pad8)"
-      (pins N1-8 P1-3)
+      (pins P1-3 N1-8)
     )
     (net "Net-(N1-Pad9)"
-      (pins N1-9 P1-2)
+      (pins P1-2 N1-9)
     )
     (net "Net-(N1-PadA)"
-      (pins N1-A P1-1)
+      (pins P1-1 N1-A)
     )
     (net "Net-(N1-PadLHDP)"
-      (pins N1-LHDP P1-11)
+      (pins P1-11 N1-LHDP)
     )
     (net "Net-(N2-Pad0)"
-      (pins N2-0 P2-12)
+      (pins P2-12 N2-0)
     )
     (net "Net-(N2-Pad1)"
-      (pins N2-1 P2-10)
+      (pins P2-10 N2-1)
     )
     (net "Net-(N2-Pad2)"
-      (pins N2-2 P2-9)
+      (pins P2-9 N2-2)
     )
     (net "Net-(N2-Pad3)"
-      (pins N2-3 P2-8)
+      (pins P2-8 N2-3)
     )
     (net "Net-(N2-Pad4)"
-      (pins N2-4 P2-7)
+      (pins P2-7 N2-4)
     )
     (net "Net-(N2-Pad5)"
-      (pins N2-5 P2-6)
+      (pins P2-6 N2-5)
     )
     (net "Net-(N2-Pad6)"
-      (pins N2-6 P2-5)
+      (pins P2-5 N2-6)
     )
     (net "Net-(N2-Pad7)"
-      (pins N2-7 P2-4)
+      (pins P2-4 N2-7)
     )
     (net "Net-(N2-Pad8)"
-      (pins N2-8 P2-3)
+      (pins P2-3 N2-8)
     )
     (net "Net-(N2-Pad9)"
-      (pins N2-9 P2-2)
+      (pins P2-2 N2-9)
     )
     (net "Net-(N2-PadA)"
-      (pins N2-A P2-1)
+      (pins P2-1 N2-A)
     )
     (net "Net-(N2-PadLHDP)"
-      (pins N2-LHDP P2-11)
+      (pins P2-11 N2-LHDP)
     )
     (class kicad_default "" "Net-(N1-Pad0)" "Net-(N1-Pad1)" "Net-(N1-Pad2)"
       "Net-(N1-Pad3)" "Net-(N1-Pad4)" "Net-(N1-Pad5)" "Net-(N1-Pad6)" "Net-(N1-Pad7)"
