@@ -1,4 +1,4 @@
-(pcb /Users/jacob_nielsen/Documents/Nixie/NixieDisplayBoard/NixieDisplayBoard.dsn
+(pcb /Users/jacob_nielsen/GitRepos/NixieClock/NixieDisplayBoard/NixieDisplayBoard.dsn
   (parser
     (string_quote ")
     (space_in_quoted_tokens on)
@@ -38,8 +38,8 @@
       (place P2 148590 -102870 front 270 (PN CONN_01X12))
     )
     (component "IN12B:russian-nixies-IN-12"
+      (place N1 124460 -80010 front 0 (PN "IN-12B"))
       (place N2 144780 -80010 front 0 (PN "IN-12B"))
-      (place N1 125730 -80010 front 0 (PN "IN-12B"))
     )
   )
   (library
@@ -69,22 +69,21 @@
       (pin Oval[A]Pad_2032x1727.2_um 12 0 -27940)
     )
     (image "IN12B:russian-nixies-IN-12"
-      (outline (path signal 254  7937.5 6667.5  7937.5 -6350))
-      (outline (path signal 254  -8890 -6189.98  -8890 6667.5))
-      (outline (path signal 254  -8890 -6189.98  -8890 -6350))
-      (pin Round[A]Pad_2540_um 0 5046.98 -4498.34)
-      (pin Round[A]Pad_2540_um 1 -4315.46 -7815.58)
-      (pin Round[A]Pad_2540_um 2 -5999.48 -4498.34)
-      (pin Round[A]Pad_2540_um 3 -6126.48 0)
-      (pin Round[A]Pad_2540_um 4 -5999.48 4498.34)
-      (pin Round[A]Pad_2540_um 5 -4315.46 7815.58)
-      (pin Round[A]Pad_2540_um 6 -317.5 8816.34)
-      (pin Round[A]Pad_2540_um 7 3680.46 7815.58)
-      (pin Round[A]Pad_2540_um 8 5046.98 4498.34)
-      (pin Round[A]Pad_2540_um 9 5173.98 0)
-      (pin Round[A]Pad_2540_um A 3680.46 -7815.58)
-      (pin Round[A]Pad_2540_um LHDP -317.5 -8816.34)
-      (pin Round[A]Pad_5500_um @1 -340 0)
+      (outline (path signal 254  9525 9128.12  9525 -9128.12))
+      (outline (path signal 254  -9525 -9128.12  -9525 9128.12))
+      (pin Round[A]Pad_2540_um 0 5427.98 -4498.34)
+      (pin Round[A]Pad_2540_um 1 -3934.46 -7815.58)
+      (pin Round[A]Pad_2540_um 2 -5618.48 -4498.34)
+      (pin Round[A]Pad_2540_um 3 -5745.48 0)
+      (pin Round[A]Pad_2540_um 4 -5618.48 4498.34)
+      (pin Round[A]Pad_2540_um 5 -3934.46 7815.58)
+      (pin Round[A]Pad_2540_um 6 63.5 8816.34)
+      (pin Round[A]Pad_2540_um 7 4061.46 7815.58)
+      (pin Round[A]Pad_2540_um 8 5427.98 4498.34)
+      (pin Round[A]Pad_2540_um 9 5554.98 0)
+      (pin Round[A]Pad_2540_um A 4061.46 -7815.58)
+      (pin Round[A]Pad_2540_um LHDP 63.5 -8816.34)
+      (pin Round[A]Pad_5500_um @1 41 0)
     )
     (padstack Round[A]Pad_2540_um
       (shape (circle F.Cu 2540))

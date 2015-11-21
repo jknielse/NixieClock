@@ -1,4 +1,2 @@
 (fp_lib_table
-  (lib (name russian-nixies)(type Legacy)(uri /Users/jacob_nielsen/Documents/Nixie/russian-nixies.mod)(options "")(descr ""))
-  (lib (name IN12B)(type KiCad)(uri /Users/jacob_nielsen/Documents/Nixie/IN12B.pretty)(options "")(descr ""))
 )
