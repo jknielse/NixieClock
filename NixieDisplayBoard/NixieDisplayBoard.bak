@@ -51,7 +51,7 @@ U 1 1 563969E1
 P 6900 1850
 F 0 "N1" H 6725 2675 50  0000 L BNN
 F 1 "IN-12B" H 6900 1850 50  0000 L BNN
-F 2 "russian-nixies:russian-nixies-IN-12" H 6900 2000 50  0001 C CNN
+F 2 "IN12B:russian-nixies-IN-12" H 6900 2000 50  0001 C CNN
 F 3 "" H 6900 1850 60  0000 C CNN
 	1    6900 1850
 	1    0    0    -1  
@@ -62,7 +62,7 @@ U 1 1 56396A4D
 P 6900 3550
 F 0 "N2" H 6725 4375 50  0000 L BNN
 F 1 "IN-12B" H 6900 3550 50  0000 L BNN
-F 2 "russian-nixies:russian-nixies-IN-12" H 6900 3700 50  0001 C CNN
+F 2 "IN12B:russian-nixies-IN-12" H 6900 3700 50  0001 C CNN
 F 3 "" H 6900 3550 60  0000 C CNN
 	1    6900 3550
 	1    0    0    -1  

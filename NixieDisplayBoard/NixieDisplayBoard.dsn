@@ -113,76 +113,76 @@
   )
   (network
     (net "Net-(N1-Pad0)"
-      (pins P1-12 N1-0)
+      (pins P1-2 N1-0)
     )
     (net "Net-(N1-Pad1)"
-      (pins P1-10 N1-1)
+      (pins P1-3 N1-1)
     )
     (net "Net-(N1-Pad2)"
-      (pins P1-9 N1-2)
+      (pins P1-4 N1-2)
     )
     (net "Net-(N1-Pad3)"
-      (pins P1-8 N1-3)
+      (pins P1-5 N1-3)
     )
     (net "Net-(N1-Pad4)"
-      (pins P1-7 N1-4)
+      (pins P1-6 N1-4)
     )
     (net "Net-(N1-Pad5)"
-      (pins P1-6 N1-5)
+      (pins P1-7 N1-5)
     )
     (net "Net-(N1-Pad6)"
-      (pins P1-5 N1-6)
+      (pins P1-8 N1-6)
     )
     (net "Net-(N1-Pad7)"
-      (pins P1-4 N1-7)
+      (pins P1-9 N1-7)
     )
     (net "Net-(N1-Pad8)"
-      (pins P1-3 N1-8)
+      (pins P1-10 N1-8)
     )
     (net "Net-(N1-Pad9)"
-      (pins P1-2 N1-9)
+      (pins P1-11 N1-9)
     )
     (net "Net-(N1-PadA)"
       (pins P1-1 N1-A)
     )
     (net "Net-(N1-PadLHDP)"
-      (pins P1-11 N1-LHDP)
+      (pins P1-12 N1-LHDP)
     )
     (net "Net-(N2-Pad0)"
-      (pins P2-12 N2-0)
+      (pins P2-2 N2-0)
     )
     (net "Net-(N2-Pad1)"
-      (pins P2-10 N2-1)
+      (pins P2-3 N2-1)
     )
     (net "Net-(N2-Pad2)"
-      (pins P2-9 N2-2)
+      (pins P2-4 N2-2)
     )
     (net "Net-(N2-Pad3)"
-      (pins P2-8 N2-3)
+      (pins P2-5 N2-3)
     )
     (net "Net-(N2-Pad4)"
-      (pins P2-7 N2-4)
+      (pins P2-6 N2-4)
     )
     (net "Net-(N2-Pad5)"
-      (pins P2-6 N2-5)
+      (pins P2-7 N2-5)
     )
     (net "Net-(N2-Pad6)"
-      (pins P2-5 N2-6)
+      (pins P2-8 N2-6)
     )
     (net "Net-(N2-Pad7)"
-      (pins P2-4 N2-7)
+      (pins P2-9 N2-7)
     )
     (net "Net-(N2-Pad8)"
-      (pins P2-3 N2-8)
+      (pins P2-10 N2-8)
     )
     (net "Net-(N2-Pad9)"
-      (pins P2-2 N2-9)
+      (pins P2-11 N2-9)
     )
     (net "Net-(N2-PadA)"
       (pins P2-1 N2-A)
     )
     (net "Net-(N2-PadLHDP)"
-      (pins P2-11 N2-LHDP)
+      (pins P2-12 N2-LHDP)
     )
     (class kicad_default "" "Net-(N1-Pad0)" "Net-(N1-Pad1)" "Net-(N1-Pad2)"
       "Net-(N1-Pad3)" "Net-(N1-Pad4)" "Net-(N1-Pad5)" "Net-(N1-Pad6)" "Net-(N1-Pad7)"
