@@ -28,8 +28,6 @@ LIBS:opto
 LIBS:atmel
 LIBS:contrib
 LIBS:valves
-LIBS:NixieComponentLibrary
-LIBS:russian-nixies
 LIBS:NixieDriverBoard-cache
 EELAYER 25 0
 EELAYER END
@@ -65,17 +63,6 @@ F 1 "K155ID1" H 7750 2600 60  0000 C CNN
 F 2 "Housings_DIP:DIP-16_W7.62mm_LongPads" H 7800 2900 60  0001 C CNN
 F 3 "" H 7800 2900 60  0000 C CNN
 	1    7800 2900
-	1    0    0    -1  
-$EndComp
-$Comp
-L 74HC595 74HC1
-U 1 1 5637B051
-P 5600 3650
-F 0 "74HC1" H 5750 4250 70  0000 C CNN
-F 1 "74HC595" H 5600 3050 70  0000 C CNN
-F 2 "Housings_DIP:DIP-16_W7.62mm_LongPads" H 5600 3650 60  0001 C CNN
-F 3 "" H 5600 3650 60  0000 C CNN
-	1    5600 3650
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -289,52 +276,6 @@ Wire Wire Line
 	4900 3400 3900 3400
 Connection ~ 3900 3400
 Wire Wire Line
-	6300 3200 6300 2750
-Wire Wire Line
-	6300 2750 7200 2750
-Wire Wire Line
-	6300 3300 6400 3300
-Wire Wire Line
-	6400 3300 6400 2850
-Wire Wire Line
-	6400 2850 7200 2850
-Wire Wire Line
-	6300 3400 6500 3400
-Wire Wire Line
-	6500 3400 6500 2950
-Wire Wire Line
-	6500 2950 7200 2950
-Wire Wire Line
-	6300 3500 6600 3500
-Wire Wire Line
-	6600 3500 6600 3050
-Wire Wire Line
-	6600 3050 7200 3050
-Wire Wire Line
-	6300 3900 6400 3900
-Wire Wire Line
-	6400 3900 6400 4600
-Wire Wire Line
-	6400 4600 7200 4600
-Wire Wire Line
-	6300 3800 6500 3800
-Wire Wire Line
-	6500 3800 6500 4500
-Wire Wire Line
-	6500 4500 7200 4500
-Wire Wire Line
-	6300 3700 6600 3700
-Wire Wire Line
-	6600 3700 6600 4400
-Wire Wire Line
-	6600 4400 7200 4400
-Wire Wire Line
-	6300 3600 6700 3600
-Wire Wire Line
-	6700 3600 6700 4300
-Wire Wire Line
-	6700 4300 7200 4300
-Wire Wire Line
 	5500 2750 5500 2200
 Connection ~ 3600 2750
 Wire Wire Line
@@ -399,4 +340,61 @@ Wire Wire Line
 	9050 2350 9300 2350
 Wire Wire Line
 	9050 3900 9300 3900
+$Comp
+L 74HC595 74HC1
+U 1 1 5637B051
+P 5600 3650
+F 0 "74HC1" H 5750 4250 70  0000 C CNN
+F 1 "74HC595" H 5600 3050 70  0000 C CNN
+F 2 "Housings_DIP:DIP-16_W7.62mm_LongPads" H 5600 3650 60  0001 C CNN
+F 3 "" H 5600 3650 60  0000 C CNN
+	1    5600 3650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6300 3200 6300 3050
+Wire Wire Line
+	6300 3050 7200 3050
+Wire Wire Line
+	6300 3300 6350 3300
+Wire Wire Line
+	6350 3300 6350 2950
+Wire Wire Line
+	6350 2950 7200 2950
+Wire Wire Line
+	6300 3400 6400 3400
+Wire Wire Line
+	6400 3400 6400 2850
+Wire Wire Line
+	6400 2850 7200 2850
+Wire Wire Line
+	6300 3500 6450 3500
+Wire Wire Line
+	6450 3500 6450 2750
+Wire Wire Line
+	6450 2750 7200 2750
+Wire Wire Line
+	6300 3900 6350 3900
+Wire Wire Line
+	6350 3900 6350 4300
+Wire Wire Line
+	6350 4300 7200 4300
+Wire Wire Line
+	6300 3800 6400 3800
+Wire Wire Line
+	6400 3800 6400 4400
+Wire Wire Line
+	6400 4400 7200 4400
+Wire Wire Line
+	6300 3700 6450 3700
+Wire Wire Line
+	6450 3700 6450 4500
+Wire Wire Line
+	6450 4500 7200 4500
+Wire Wire Line
+	6300 3600 6500 3600
+Wire Wire Line
+	6500 3600 6500 4600
+Wire Wire Line
+	6500 4600 7200 4600
 $EndSCHEMATC

@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /Users/jacob_nielsen/GitRepos/NixieClock/NixieDisplayBoard/NixieDisplayBoard.sch)
-    (date "Saturday, November 21, 2015 'PMt' 01:23:32 PM")
+    (date "Tuesday, November 24, 2015 'PMt' 09:24:59 PM")
     (tool "Eeschema (2015-10-31 BZR 6288)-product")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -81,10 +81,10 @@
         (pin (num A) (name A) (type BiDi))
         (pin (num LHDP) (name LHDP) (type BiDi)))))
   (libraries
-    (library (logical NixieDisplayBoard-cache)
-      (uri /Users/jacob_nielsen/GitRepos/NixieClock/NixieDisplayBoard/NixieDisplayBoard-cache.lib))
     (library (logical conn)
-      (uri "/Library/Application Support/kicad/library/conn.lib")))
+      (uri "/Library/Application Support/kicad/library/conn.lib"))
+    (library (logical NixieDisplayBoard-cache)
+      (uri /Users/jacob_nielsen/GitRepos/NixieClock/NixieDisplayBoard/NixieDisplayBoard-cache.lib)))
   (nets
     (net (code 1) (name "Net-(N1-Pad1)")
       (node (ref P1) (pin 3))
