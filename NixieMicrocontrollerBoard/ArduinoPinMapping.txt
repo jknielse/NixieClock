@@ -1,0 +1,14 @@
+GPS:
+8 - TX
+9 - RX
+
+SD:
+10 - CS
+11 - MOSI
+12 - SCK
+13 - MISO
+
+Nixie:
+3 - DATA
+4 - CLK
+5 - PROP
