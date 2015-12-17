@@ -137,7 +137,7 @@ U 1 1 565C998C
 P 4900 4600
 F 0 "Y1" H 4900 4750 50  0000 C CNN
 F 1 "16MHz" H 4900 4450 50  0000 C CNN
-F 2 "Crystals:Crystal_HC51-U_Vertical" H 4900 4600 60  0000 C CNN
+F 2 "Crystals:Crystal_HC49-U_Vertical" H 4900 4600 60  0000 C CNN
 F 3 "" H 4900 4600 60  0000 C CNN
 	1    4900 4600
 	0    -1   -1   0   
@@ -257,49 +257,32 @@ Wire Wire Line
 Wire Wire Line
 	5800 3350 5800 1650
 Wire Wire Line
-	8600 3250 8800 3250
-Wire Wire Line
-	8600 1550 8600 3800
-Wire Wire Line
-	8800 1900 8600 1900
-Wire Wire Line
-	8800 2500 8600 2500
-Connection ~ 8600 2500
+	8600 1250 8600 2750
 NoConn ~ 8800 2400
 Wire Wire Line
-	8500 1250 8500 3450
-Wire Wire Line
-	8500 2600 8800 2600
-Wire Wire Line
-	8500 3450 8800 3450
-Connection ~ 8500 2600
+	8500 1550 8500 3800
 Wire Wire Line
 	3000 2100 3000 4100
-Wire Wire Line
-	8600 1550 8800 1550
-Connection ~ 8600 1900
-Wire Wire Line
-	8500 1250 8800 1250
 $Comp
 L GND #PWR04
 U 1 1 565D0BC6
-P 8700 3800
-F 0 "#PWR04" H 8700 3550 50  0001 C CNN
-F 1 "GND" H 8700 3650 50  0000 C CNN
-F 2 "" H 8700 3800 60  0000 C CNN
-F 3 "" H 8700 3800 60  0000 C CNN
-	1    8700 3800
+P 8500 3800
+F 0 "#PWR04" H 8500 3550 50  0001 C CNN
+F 1 "GND" H 8500 3650 50  0000 C CNN
+F 2 "" H 8500 3800 60  0000 C CNN
+F 3 "" H 8500 3800 60  0000 C CNN
+	1    8500 3800
 	1    0    0    -1  
 $EndComp
 $Comp
 L VCC #PWR05
 U 1 1 565D0C16
-P 8500 3800
-F 0 "#PWR05" H 8500 3650 50  0001 C CNN
-F 1 "VCC" H 8500 3950 50  0000 C CNN
-F 2 "" H 8500 3800 60  0000 C CNN
-F 3 "" H 8500 3800 60  0000 C CNN
-	1    8500 3800
+P 8700 3800
+F 0 "#PWR05" H 8700 3650 50  0001 C CNN
+F 1 "VCC" H 8700 3950 50  0000 C CNN
+F 2 "" H 8700 3800 60  0000 C CNN
+F 3 "" H 8700 3800 60  0000 C CNN
+	1    8700 3800
 	-1   0    0    1   
 $EndComp
 $Comp
@@ -314,12 +297,6 @@ F 3 "" H 8300 3800 60  0000 C CNN
 	-1   0    0    1   
 $EndComp
 Wire Wire Line
-	8700 3450 8700 3800
-Connection ~ 8700 3450
-Wire Wire Line
-	8600 3800 8500 3800
-Connection ~ 8600 3250
-Wire Wire Line
 	8300 3800 8300 3350
 Wire Wire Line
 	8300 3350 8800 3350
@@ -333,24 +310,6 @@ Wire Wire Line
 	5900 1350 5900 2000
 Wire Wire Line
 	5900 2000 5750 2000
-Wire Wire Line
-	8800 2300 6000 2300
-Wire Wire Line
-	6000 2300 6000 2100
-Wire Wire Line
-	6000 2100 5750 2100
-Wire Wire Line
-	8800 2200 5750 2200
-Wire Wire Line
-	8800 2100 6100 2100
-Wire Wire Line
-	6100 2100 6100 2250
-Wire Wire Line
-	6100 2250 5900 2250
-Wire Wire Line
-	5900 2250 5900 2300
-Wire Wire Line
-	5900 2300 5750 2300
 Wire Wire Line
 	8800 2000 6200 2000
 Wire Wire Line
@@ -445,4 +404,138 @@ Wire Wire Line
 	5800 1650 4750 1650
 Wire Wire Line
 	4450 1650 3500 1650
+Wire Wire Line
+	8600 2600 8800 2600
+Connection ~ 8600 2600
+Wire Wire Line
+	8350 2500 8800 2500
+Connection ~ 8500 2500
+Wire Wire Line
+	8800 1900 8500 1900
+Connection ~ 8500 1900
+Wire Wire Line
+	8600 1250 8800 1250
+Wire Wire Line
+	8800 1550 8500 1550
+Wire Wire Line
+	8700 2750 8700 3800
+Wire Wire Line
+	8700 3450 8800 3450
+Wire Wire Line
+	8800 3250 8500 3250
+Connection ~ 8500 3250
+Wire Wire Line
+	8600 2750 8700 2750
+Connection ~ 8700 3450
+$Comp
+L R R3
+U 1 1 566FC785
+P 7700 2650
+F 0 "R3" V 7780 2650 50  0000 C CNN
+F 1 "4.7K" V 7700 2650 50  0000 C CNN
+F 2 "Resistors_ThroughHole:Resistor_Vertical_RM5mm" V 7630 2650 30  0000 C CNN
+F 3 "" H 7700 2650 30  0000 C CNN
+	1    7700 2650
+	0    1    1    0   
+$EndComp
+$Comp
+L R R2
+U 1 1 566FC809
+P 7700 2500
+F 0 "R2" V 7780 2500 50  0000 C CNN
+F 1 "4.7K" V 7700 2500 50  0000 C CNN
+F 2 "Resistors_ThroughHole:Resistor_Vertical_RM5mm" V 7630 2500 30  0000 C CNN
+F 3 "" H 7700 2500 30  0000 C CNN
+	1    7700 2500
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R4
+U 1 1 566FCA5C
+P 7700 2800
+F 0 "R4" V 7780 2800 50  0000 C CNN
+F 1 "4.7K" V 7700 2800 50  0000 C CNN
+F 2 "Resistors_ThroughHole:Resistor_Vertical_RM5mm" V 7630 2800 30  0000 C CNN
+F 3 "" H 7700 2800 30  0000 C CNN
+	1    7700 2800
+	0    1    1    0   
+$EndComp
+$Comp
+L R R5
+U 1 1 566FCA9A
+P 8200 2500
+F 0 "R5" V 8280 2500 50  0000 C CNN
+F 1 "10K" V 8200 2500 50  0000 C CNN
+F 2 "Resistors_ThroughHole:Resistor_Vertical_RM5mm" V 8130 2500 30  0000 C CNN
+F 3 "" H 8200 2500 30  0000 C CNN
+	1    8200 2500
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R6
+U 1 1 566FCAEF
+P 8200 2650
+F 0 "R6" V 8280 2650 50  0000 C CNN
+F 1 "10K" V 8200 2650 50  0000 C CNN
+F 2 "Resistors_ThroughHole:Resistor_Vertical_RM5mm" V 8130 2650 30  0000 C CNN
+F 3 "" H 8200 2650 30  0000 C CNN
+	1    8200 2650
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R7
+U 1 1 566FCB44
+P 8200 2800
+F 0 "R7" V 8280 2800 50  0000 C CNN
+F 1 "10K" V 8200 2800 50  0000 C CNN
+F 2 "Resistors_ThroughHole:Resistor_Vertical_RM5mm" V 8130 2800 30  0000 C CNN
+F 3 "" H 8200 2800 30  0000 C CNN
+	1    8200 2800
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	8350 2650 8500 2650
+Connection ~ 8500 2650
+Wire Wire Line
+	8350 2800 8500 2800
+Connection ~ 8500 2800
+Wire Wire Line
+	7850 2500 8050 2500
+Wire Wire Line
+	8000 2100 8800 2100
+Wire Wire Line
+	8000 2100 8000 2500
+Connection ~ 8000 2500
+Wire Wire Line
+	7850 2650 8050 2650
+Wire Wire Line
+	7850 2800 8050 2800
+Wire Wire Line
+	8800 2200 7950 2200
+Wire Wire Line
+	7950 2200 7950 2650
+Connection ~ 7950 2650
+Wire Wire Line
+	5750 2200 7400 2200
+Wire Wire Line
+	7400 2200 7400 2650
+Wire Wire Line
+	7400 2650 7550 2650
+Wire Wire Line
+	8800 2300 7900 2300
+Wire Wire Line
+	7900 2300 7900 2800
+Connection ~ 7900 2800
+Wire Wire Line
+	7550 2800 7300 2800
+Wire Wire Line
+	7300 2800 7300 2100
+Wire Wire Line
+	7300 2100 5750 2100
+Wire Wire Line
+	5750 2300 7500 2300
+Wire Wire Line
+	7500 2300 7500 2500
+Wire Wire Line
+	7500 2500 7550 2500
 $EndSCHEMATC

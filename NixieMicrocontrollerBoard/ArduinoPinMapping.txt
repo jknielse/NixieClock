@@ -3,12 +3,12 @@ GPS:
 9 - RX
 
 SD:
-10 - CS
-11 - MOSI
-12 - SCK
-13 - MISO
+1 - MISO
+2 - SCK
+3 - MOSI
+4 - CS
 
 Nixie:
-3 - DATA
-4 - CLK
 5 - PROP
+6 - CLK
+7 - DATA
