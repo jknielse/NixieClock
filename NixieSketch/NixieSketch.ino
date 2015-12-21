@@ -1,70 +1,83 @@
 #include "TinyGPS++.h"
 #include "NixieDisplay.h"
+#include "ClockTime.h"
 #include <SD.h>
 #include <SoftwareSerial.h>
 
 //static const int GPSRX = 4, GPSTX = 3;
-static const int GPSRX = 9, GPSTX = 8;
-static const int NIXPROP = 2, NIXCLK = 3, NIXDATA = 4;
-static const int SDCD = 10, SDMOSI = 11, SDSCK = 12, SDMISO = 13;
+static const int GPSRX = 8, GPSTX = 9;
+static const int NIXPROP = 5, NIXCLK = 6, NIXDATA = 7;
+static const int SDCS = 4, SDMOSI = 3, SDSCK = 2, SDMISO = 1;
 
 static const uint32_t GPSBaud = 9600;
 
-//TinyGPSPlus gps;
-//SoftwareSerial gps_serial(GPSRX, GPSTX);
+TinyGPSPlus gps;
+SoftwareSerial gps_serial(GPSRX, GPSTX);
 NixieDisplay nixie(NIXPROP, NIXCLK, NIXDATA);
-
+ClockTime clock_time;
+static bool initialized = false;
+static int wait_digit = 0;
 
 void setup()
 {
-  //Serial.begin(115200);
-  //gps_serial.begin(GPSBaud);
+  gps_serial.begin(GPSBaud);
+  nixie.push(10);
+  nixie.push(10);
+  nixie.push(10);
+  nixie.push(10);
+  nixie.push(10);
+  nixie.push(10);
+  nixie.show();
 }
 
 void loop()
 {
-  for(long i = 999999; i > 0; i--){
-    long t = i;
-    for(int n = 0; n < 6; n++){
-      nixie.push(t % 10);
-      t = t / 10;
-    }
-    nixie.show();
-  }
-  /*
   // This sketch displays information every time a new sentence is correctly encoded.
   while (gps_serial.available() > 0)
     if (gps.encode(gps_serial.read()))
-      displayInfo();
+      resyncClock();
 
-  if (millis() > 5000 && gps.charsProcessed() < 10)
-  {
-    Serial.println(F("No GPS detected: check wiring."));
-    while(true);
-  }*/
+  if (initialized){
+    showTime();
+  } else {
+    showWaiting();
+  }
 }
 
-/*
-void displayInfo()
+void showTime(){
+  long seconds = clock_time.getSecs();
+  long s = seconds % 60;
+  long m = (seconds / 60L) % 60;
+  long h = (seconds / 3600L) % 24;
+  nixie.push(s % 10);
+  nixie.push(s / 10);
+  nixie.push(m % 10);
+  nixie.push(m / 10);
+  nixie.push(h % 10);
+  nixie.push(h / 10);
+  nixie.show();
+}
+
+void showWaiting(){
+  for (int i = 0; i < 6; i++){
+    if (i == wait_digit){
+      nixie.push(0);
+    } else {
+      nixie.push(10);
+    }
+  }
+  nixie.show();
+  delay(170);
+  wait_digit++;
+  wait_digit = wait_digit % 10;
+}
+
+void resyncClock()
 {
   if (gps.time.isValid())
   {
-    if (gps.time.hour() < 10) Serial.print(F("0"));
-    Serial.print(gps.time.hour());
-    Serial.print(F(":"));
-    if (gps.time.minute() < 10) Serial.print(F("0"));
-    Serial.print(gps.time.minute());
-    Serial.print(F(":"));
-    if (gps.time.second() < 10) Serial.print(F("0"));
-    Serial.print(gps.time.second());
-    Serial.print(F("."));
-    if (gps.time.centisecond() < 10) Serial.print(F("0"));
-    Serial.print(gps.time.centisecond());
+    clock_time.setTime(gps.time.hour(), gps.time.minute(), gps.time.second(), gps.time.centisecond());
+    initialized = true;
   }
-  else
-  {
-    Serial.print(F("INVALID"));
-  }
-
-  Serial.println();
-}*/
+  // Timezone stuff goes here
+}
