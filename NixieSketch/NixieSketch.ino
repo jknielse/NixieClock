@@ -76,8 +76,10 @@ void resyncClock()
 {
   if (gps.time.isValid())
   {
-    clock_time.setTime(gps.time.hour(), gps.time.minute(), gps.time.second(), gps.time.centisecond());
+    unsigned long t = millis();
+    clock_time.setTime(Timestamp(gps.date.year(), gps.date.month(), gps.date.day(), gps.time.hour(), gps.time.minute(), gps.time.second(), gps.time.centisecond()), t);
     initialized = true;
   }
   // Timezone stuff goes here
 }
+
