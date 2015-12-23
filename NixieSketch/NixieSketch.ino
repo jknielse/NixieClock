@@ -7,7 +7,7 @@
 //static const int GPSRX = 4, GPSTX = 3;
 static const int GPSRX = 8, GPSTX = 9;
 static const int NIXPROP = 5, NIXCLK = 6, NIXDATA = 7;
-static const int SDCS = 4, SDMOSI = 3, SDSCK = 2, SDMISO = 1;
+static const int SDCS = 4;
 
 static const uint32_t GPSBaud = 9600;
 
@@ -28,6 +28,19 @@ void setup()
   nixie.push(10);
   nixie.push(10);
   nixie.show();
+
+  if (!SD.begin(SDCS)) {
+    nixie.push(1);
+    nixie.push(1);
+    nixie.push(1);
+    nixie.push(1);
+    nixie.push(1);
+    nixie.push(1);
+    nixie.show();
+    while(1){
+      //just hang so that the issue can be diagnosed
+    }
+  }
 }
 
 void loop()
@@ -70,6 +83,21 @@ void showWaiting(){
   delay(170);
   wait_digit++;
   wait_digit = wait_digit % 10;
+}
+
+long timezoneOffsetFromLocation(double lat, double lon){
+  //First, we'll convert the latitude into a hash that will be
+  //used to index into a file on the SD card:
+  //For roughly 10m accuracy, we'll look at 10,000ths of a degree
+  //and take the nearest integer to be our hash.
+  long sdhash = (long)((90.0 + lat) * 10000L);
+
+  //at each hash index we need to store 48 potential timezone boundaries, and 9 bytes for each one.
+  //the first 4 bytes will be a double specifying the longitudinal boundary between timezones.
+  //the next 4 bytes will be a long specifying the number of seconds that UTC needs to be
+  //adjusted by to respect that timezone.
+  //the last byte will either be 1 or 0, and represents whether that timezone respects daylight
+  //savings time.
 }
 
 void resyncClock()
