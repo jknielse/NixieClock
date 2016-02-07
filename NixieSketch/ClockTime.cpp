@@ -1,58 +1,57 @@
 #include "Arduino.h"
 #include "ClockTime.h"
-
-int daysAtMonth[] = {0, 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365};
-
-bool isLeapYear(long year){
-    if (year % 400 == 0){
-        return true;
-    }
-    if (year % 100 == 0){
-        return false;
-    }
-    if (year % 4 == 0){
-        return true;
-    }
-    return false;
-}
+#include "Time.h"
 
 Timestamp::Timestamp(unsigned long year, unsigned long month, unsigned long day, unsigned long hours, unsigned long mins, unsigned long secs, unsigned long centisecs){
-    msecs = (((hours * 60UL + mins) * 60UL + secs) * 100UL + centisecs) * 10UL;
-    unsigned long yeardays = 0;
-    long yearCount = year - 2000L;
-    for (long y = 0; y < yearCount; y++){
-        if (isLeapYear(y)){
-            yeardays += 366;
-        } else {
-            yeardays += 365;
-        }
-    }
-
-    long monthdays = daysAtMonth[month];
-    if (isLeapYear(year) && month > 2){
-        monthdays++;
-    }
-
-    days = day + monthdays + yeardays;
+    setTime(hours, mins, secs, day, month, year);
+    epoch_secs = now();
+    msecs = centisecs * 10UL;
 }
 
-unsigned long Timestamp::getDays(){
-    return days;
+unsigned long Timestamp::getSeconds(){
+    return epoch_secs;
 }
 
 unsigned long Timestamp::getMilliseconds(){
     return msecs;
 }
 
+unsigned long Timestamp::dayMilliseconds(){
+    unsigned long hours = hour(epoch_secs);
+    unsigned long minutes = minute(epoch_secs);
+    unsigned long seconds = second(epoch_secs);
+    return ((hours * 60UL + minutes) * 60UL + seconds) * 1000UL + msecs;
+}
+
 long operator-(Timestamp t1, Timestamp t2)
 {
-     return (long)(t1.getDays() - t2.getDays()) * 86400000L + (t1.getMilliseconds() - t2.getMilliseconds());
+     return (long)(t1.getSeconds() - t2.getSeconds()) * 1000L + (t1.getMilliseconds() - t2.getMilliseconds());
+}
+
+TimeZone::TimeZone(long offset_secs, long* adjust_times, long length)
+{
+    len = length;
+    adjusts = adjust_times;
+    offset = offset_secs;
+    index = 0;
+}
+
+unsigned long TimeZone::getSecs(long unix_timestamp)
+{
+    while ((index < len) && (adjusts[index] < unix_timestamp)) {
+        offset = adjusts[index + 1];
+        index += 2;
+    }
+    long t = unix_timestamp + offset;
+    unsigned long hours = hour(t);
+    unsigned long minutes = minute(t);
+    unsigned long seconds = second(t);
+    return (hours * 60UL + minutes) * 60UL + seconds;
 }
 
 
 ClockTime::ClockTime()
 {
-    offset_secs = 0;
     latest_arduino_time = 0;
     saved_arduino_time_1 = 0;
     saved_arduino_time_2 = 0;
@@ -79,8 +78,8 @@ void ClockTime::setTime(Timestamp real_time, unsigned long arduino_time) {
     }
 }
 
-void ClockTime::setOffset(long secs){
-    offset_secs = secs;
+void ClockTime::setTimeZone(TimeZone iTimezone) {
+    timezone = iTimezone;
 }
 
 double ClockTime::clockAdjustFactor(){
@@ -93,9 +92,17 @@ double ClockTime::clockAdjustFactor(){
     return 1.0;
 }
 
-// seconds since start of day
-long ClockTime::getSecs(){
-    long current_time = latest_real_time.getMilliseconds() + (unsigned long)((millis() - latest_arduino_time) * clockAdjustFactor()) + offset_secs * 1000L;
-    return current_time/1000UL;
+long ClockTime::getMilliseconds() {
+    return latest_real_time.dayMilliseconds() + (unsigned long)((millis() - latest_arduino_time) * clockAdjustFactor());
+}
+
+// seconds since start of day (UTC time)
+long ClockTime::getSecs() {
+    return getMilliseconds()/1000UL;//timezone.getSecs(getMilliseconds()/1000UL);
+}
+
+// next time that the clock interrupt should fire
+unsigned long ClockTime::getNextInterrupt(){
+    return (millis() + (getMilliseconds() % 1000UL) / clockAdjustFactor());
 }
 

@@ -24,7 +24,7 @@ if not os.path.exists(SD_DIR):
 # This is more for my memory than anything.
 def lat_to_offset(lat, slice_depth):
     d = 180.0 / (2 ** (slice_depth + 1))
-    return int((lat - 90) / -d - 1);
+    return int((lat - 90) / -d - 1)
 
 def is_between(p1, p2, lat):
     return (p1[1] < lat and lat < p2[1]) or (p2[1] < lat and lat < p1[1])
@@ -128,7 +128,7 @@ if args.map:
     update_freq = total_count/1000
     update_num = 0
 
-    with open(os.path.join(SD_DIR, 'timezone_hash'), 'wb') as f:
+    with open(os.path.join(SD_DIR, 'timezone.hsh'), 'wb') as f:
         for s in slice_timezones(shape_info, 90.0, -90.0, slice_depth):
             slice_count += 1
             if slice_count % update_freq == 0:
@@ -137,7 +137,9 @@ if args.map:
                 sys.stdout.flush()
             c = 0
             for b in s:
+                # 4 bytes
                 f.write(struct.pack('f', b[0]))
+                # 2 bytes
                 f.write(struct.pack('h', b[1]))
                 c += 1
             while c < 140:
@@ -172,7 +174,7 @@ if args.regions:
             t = datetime.now(pytz.timezone(region))
 
 
-        filename = '{}.timefile'.format(tz_name_to_number[region])
+        filename = '{}.tfl'.format(tz_name_to_number[region])
         transitions = []
         transition_times = []
 

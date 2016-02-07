@@ -3,6 +3,7 @@
 #include "ClockTime.h"
 #include <SD.h>
 #include <SoftwareSerial.h>
+#include "Time.h"
 
 //static const int GPSRX = 4, GPSTX = 3;
 static const int GPSRX = 8, GPSTX = 9;
@@ -30,14 +31,8 @@ void setup()
   nixie.show();
 
   if (!SD.begin(SDCS)) {
-    nixie.push(1);
-    nixie.push(1);
-    nixie.push(1);
-    nixie.push(1);
-    nixie.push(1);
-    nixie.push(1);
-    nixie.show();
-    while(1){
+    showNum(111111);
+    while (1) {
       //just hang so that the issue can be diagnosed
     }
   }
@@ -45,7 +40,6 @@ void setup()
 
 void loop()
 {
-  // This sketch displays information every time a new sentence is correctly encoded.
   while (gps_serial.available() > 0)
     if (gps.encode(gps_serial.read()))
       resyncClock();
@@ -71,6 +65,14 @@ void showTime(){
   nixie.show();
 }
 
+void showNum (long num){
+  for (int i = 0; i < 6; i++) {
+    nixie.push(num % 10);
+    num = num / 10;
+  }
+  nixie.show();
+}
+
 void showWaiting(){
   for (int i = 0; i < 6; i++){
     if (i == wait_digit){
@@ -85,28 +87,92 @@ void showWaiting(){
   wait_digit = wait_digit % 10;
 }
 
-long timezoneOffsetFromLocation(double lat, double lon){
+union {
+  double d;
+  byte ar[4];
+} doublething;
+
+union {
+  int i;
+  byte ar[2];
+} intthing;
+
+float readDouble(File file) {
+  for (int i=0; i< 4; i++) doublething.ar[i] = file.read();
+  return doublething.d;
+}
+
+int readInt(File file) {
+  for (int i=0; i< 2; i++) intthing.ar[i] = file.read();
+  return intthing.i;
+}
+
+int timezoneOffsetFromLocation(double lat, double lon){
   //First, we'll convert the latitude into a hash that will be
   //used to index into a file on the SD card:
   //For roughly 10m accuracy, we'll look at 10,000ths of a degree
   //and take the nearest integer to be our hash.
-  long sdhash = (long)((90.0 + lat) * 10000L);
+  unsigned long sd_seek = ((lat - 90.0) / -(180.0 / 4194304.0)) - 1UL;
+  sd_seek = sd_seek * 840UL;
+  int zone = 0;
+  File timezone_file = SD.open("timezone.hsh");
+  if (timezone_file.size() < sd_seek) {
+    showNum(222222);
+    while (1) {
+      //just hang so that the issue can be diagnosed
+    }
+  }
+  
+  if (!timezone_file.seek(sd_seek)) {
+    showNum(333333);
+    while (1) {
+      //just hang so that the issue can be diagnosed
+    }
+  } else {
+    int lastZone = 0;
+    while (true) {
+      double zonelon = readDouble(timezone_file);
+      int zonenum = readInt(timezone_file);
+      if ((zonelon > lon) || (zonelon < -900.0)) {
+        zone = lastZone;
+        break;
+      }
+    }
+  }
+  timezone_file.close();
+  showNum(123456);
+  delay(500);
+  showNum(zone);
+  delay(1000);
+  
+  return zone;
 
-  //at each hash index we need to store 48 potential timezone boundaries, and 9 bytes for each one.
+  //at each hash index we need to store 100 potential timezone boundaries, and 6 bytes for each one.
   //the first 4 bytes will be a double specifying the longitudinal boundary between timezones.
-  //the next 4 bytes will be a long specifying the number of seconds that UTC needs to be
-  //adjusted by to respect that timezone.
-  //the last byte will either be 1 or 0, and represents whether that timezone respects daylight
-  //savings time.
+  //the next 2 bytes will be an int specifying which timezone has been entered.
+  return 0;
 }
+
+long saved_year = 0;
+long saved_month = 0;
+long saved_day = 0;
 
 void resyncClock()
 {
-  if (gps.time.isValid())
+  if (gps.date.isValid()){
+    saved_year = gps.date.year();
+    saved_month = gps.date.month();
+    saved_day = gps.date.day();
+  }
+
+  if (gps.time.isValid() && saved_year)
   {
-    unsigned long t = millis();
-    clock_time.setTime(Timestamp(gps.date.year(), gps.date.month(), gps.date.day(), gps.time.hour(), gps.time.minute(), gps.time.second(), gps.time.centisecond()), t);
+    clock_time.setTime(Timestamp(saved_year, saved_month, saved_day, gps.time.hour(), gps.time.minute(), gps.time.second(), gps.time.centisecond()), millis());
     initialized = true;
+  }
+
+  if (gps.location.isValid()) {
+    timezoneOffsetFromLocation(37.7589, -122.4166);
   }
   // Timezone stuff goes here
 }

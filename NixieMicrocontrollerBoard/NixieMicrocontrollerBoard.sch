@@ -385,7 +385,7 @@ Wire Wire Line
 	8600 2600 8800 2600
 Connection ~ 8600 2600
 Wire Wire Line
-	8350 2500 8800 2500
+	8500 2500 8800 2500
 Connection ~ 8500 2500
 Wire Wire Line
 	8800 1900 8500 1900
@@ -404,101 +404,8 @@ Connection ~ 8500 3250
 Wire Wire Line
 	8600 2750 8700 2750
 Connection ~ 8700 3450
-$Comp
-L R R3
-U 1 1 566FC785
-P 7700 2650
-F 0 "R3" V 7780 2650 50  0000 C CNN
-F 1 "4.7K" V 7700 2650 50  0000 C CNN
-F 2 "Resistors_ThroughHole:Resistor_Vertical_RM5mm" V 7630 2650 30  0000 C CNN
-F 3 "" H 7700 2650 30  0000 C CNN
-	1    7700 2650
-	0    1    1    0   
-$EndComp
-$Comp
-L R R2
-U 1 1 566FC809
-P 7700 2500
-F 0 "R2" V 7780 2500 50  0000 C CNN
-F 1 "4.7K" V 7700 2500 50  0000 C CNN
-F 2 "Resistors_ThroughHole:Resistor_Vertical_RM5mm" V 7630 2500 30  0000 C CNN
-F 3 "" H 7700 2500 30  0000 C CNN
-	1    7700 2500
-	0    -1   -1   0   
-$EndComp
-$Comp
-L R R4
-U 1 1 566FCA5C
-P 7700 2800
-F 0 "R4" V 7780 2800 50  0000 C CNN
-F 1 "4.7K" V 7700 2800 50  0000 C CNN
-F 2 "Resistors_ThroughHole:Resistor_Vertical_RM5mm" V 7630 2800 30  0000 C CNN
-F 3 "" H 7700 2800 30  0000 C CNN
-	1    7700 2800
-	0    1    1    0   
-$EndComp
-$Comp
-L R R5
-U 1 1 566FCA9A
-P 8200 2500
-F 0 "R5" V 8280 2500 50  0000 C CNN
-F 1 "10K" V 8200 2500 50  0000 C CNN
-F 2 "Resistors_ThroughHole:Resistor_Vertical_RM5mm" V 8130 2500 30  0000 C CNN
-F 3 "" H 8200 2500 30  0000 C CNN
-	1    8200 2500
-	0    -1   -1   0   
-$EndComp
-$Comp
-L R R6
-U 1 1 566FCAEF
-P 8200 2650
-F 0 "R6" V 8280 2650 50  0000 C CNN
-F 1 "10K" V 8200 2650 50  0000 C CNN
-F 2 "Resistors_ThroughHole:Resistor_Vertical_RM5mm" V 8130 2650 30  0000 C CNN
-F 3 "" H 8200 2650 30  0000 C CNN
-	1    8200 2650
-	0    -1   -1   0   
-$EndComp
-$Comp
-L R R7
-U 1 1 566FCB44
-P 8200 2800
-F 0 "R7" V 8280 2800 50  0000 C CNN
-F 1 "10K" V 8200 2800 50  0000 C CNN
-F 2 "Resistors_ThroughHole:Resistor_Vertical_RM5mm" V 8130 2800 30  0000 C CNN
-F 3 "" H 8200 2800 30  0000 C CNN
-	1    8200 2800
-	0    -1   -1   0   
-$EndComp
 Wire Wire Line
-	8350 2650 8500 2650
-Connection ~ 8500 2650
-Wire Wire Line
-	8350 2800 8500 2800
-Connection ~ 8500 2800
-Wire Wire Line
-	7850 2500 8050 2500
-Wire Wire Line
-	8000 2100 8800 2100
-Wire Wire Line
-	8000 2100 8000 2500
-Connection ~ 8000 2500
-Wire Wire Line
-	7850 2650 8050 2650
-Wire Wire Line
-	7850 2800 8050 2800
-Wire Wire Line
-	8800 2200 7950 2200
-Wire Wire Line
-	7950 2200 7950 2650
-Connection ~ 7950 2650
-Wire Wire Line
-	8800 2300 7900 2300
-Wire Wire Line
-	7900 2300 7900 2800
-Connection ~ 7900 2800
-Wire Wire Line
-	7550 2800 7300 2800
+	7300 2800 8400 2800
 Wire Wire Line
 	7300 2800 7300 3900
 Wire Wire Line
@@ -540,14 +447,6 @@ F 3 "" H 7400 2100 60  0000 C CNN
 	1    7400 2100
 	0    1    1    0   
 $EndComp
-Wire Wire Line
-	7600 1900 7600 2200
-Wire Wire Line
-	6000 1900 8300 1900
-Wire Wire Line
-	6000 1900 6000 2200
-Wire Wire Line
-	6000 2200 5750 2200
 $Comp
 L GND #PWR5
 U 1 1 5670CE6C
@@ -566,43 +465,49 @@ Wire Wire Line
 NoConn ~ 5750 3500
 NoConn ~ 5750 2100
 Wire Wire Line
-	8300 1900 8300 2000
-Wire Wire Line
-	8300 2000 8800 2000
-Connection ~ 7600 1900
-Wire Wire Line
-	6800 2400 5750 2400
+	5750 2400 7700 2400
 Wire Wire Line
 	6700 2300 5750 2300
 Wire Wire Line
-	6100 2500 6900 2500
-Wire Wire Line
-	7600 2200 7400 2200
+	7400 2200 8800 2200
 Wire Wire Line
 	6900 2500 6900 2300
 Wire Wire Line
-	6800 2200 6800 2600
-Wire Wire Line
 	6800 2200 6900 2200
 Wire Wire Line
-	6700 2100 6700 2750
-Wire Wire Line
 	6700 2100 6900 2100
-Wire Wire Line
-	6800 2600 7000 2600
-Wire Wire Line
-	7000 2600 7000 2500
-Wire Wire Line
-	7000 2500 7550 2500
-Connection ~ 6800 2400
-Wire Wire Line
-	7550 2650 7100 2650
-Wire Wire Line
-	7100 2650 7100 2750
-Wire Wire Line
-	7100 2750 6700 2750
-Connection ~ 6700 2300
 NoConn ~ 5750 3600
 NoConn ~ 5750 3700
 NoConn ~ 5750 3800
+Wire Wire Line
+	7600 2200 7600 1900
+Wire Wire Line
+	7600 1900 6000 1900
+Wire Wire Line
+	6000 1900 6000 2200
+Wire Wire Line
+	6000 2200 5750 2200
+Wire Wire Line
+	6700 1800 6700 2300
+Wire Wire Line
+	6800 2400 6800 2200
+Wire Wire Line
+	8800 2300 8400 2300
+Wire Wire Line
+	8400 2300 8400 2800
+Wire Wire Line
+	8800 2000 8400 2000
+Wire Wire Line
+	8400 2000 8400 1800
+Wire Wire Line
+	8400 1800 6700 1800
+Connection ~ 6700 2100
+Wire Wire Line
+	8800 2100 7700 2100
+Wire Wire Line
+	7700 2100 7700 2400
+Connection ~ 6800 2400
+Wire Wire Line
+	6100 2500 6900 2500
+Connection ~ 7600 2200
 $EndSCHEMATC
