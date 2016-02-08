@@ -3,6 +3,7 @@
 #include "ClockTime.h"
 #include <SD.h>
 #include <SoftwareSerial.h>
+#include <TimerOne.h>
 #include "Time.h"
 
 //static const int GPSRX = 4, GPSTX = 3;
@@ -19,6 +20,7 @@ ClockTime clock_time;
 static bool initialized_time = false;
 static bool initialized_timezone = false;
 static int wait_digit = 0;
+static unsigned long next_interrupt = 0;
 
 void setup()
 {
@@ -37,6 +39,9 @@ void setup()
       //just hang so that the issue can be diagnosed
     }
   }
+
+  Timer1.initialize(200000);
+  Timer1.attachInterrupt(timeInterrupt);
 }
 
 void loop()
@@ -44,11 +49,15 @@ void loop()
   while (gps_serial.available() > 0)
     if (gps.encode(gps_serial.read()))
       resyncClock();
+}
 
-  if (initialized_time && initialized_timezone){
-    showTime();
-  } else {
-    showWaiting();
+void timeInterrupt(void) {
+  if (millis() - next_interrupt > 0) {
+    if (initialized_time && initialized_timezone){
+      showTime();
+    } else {
+      showWaiting();
+    }
   }
 }
 
@@ -64,6 +73,7 @@ void showTime(){
   nixie.push(h % 10);
   nixie.push(h / 10);
   nixie.show();
+  next_interrupt = clock_time.getNextInterrupt();
 }
 
 void showNum (long num){
@@ -83,9 +93,9 @@ void showWaiting(){
     }
   }
   nixie.show();
-  delay(170);
   wait_digit++;
   wait_digit = wait_digit % 10;
+  next_interrupt += 130;
 }
 
 union {
@@ -123,8 +133,7 @@ TimeZone timezoneFromLocationAndTime(double lat, double lon, long unix_time){
   //used to index into a file on the SD card:
   //For roughly 10m accuracy, we'll look at 10,000ths of a degree
   //and take the nearest integer to be our hash.
-  //showNum(123456);
-  //delay(1000);
+
   unsigned long sd_seek = ((lat - 90.0) / -(180.0 / 4194304.0)) - 1UL;
   sd_seek = sd_seek * 840UL;
   int zone = 0;
@@ -155,9 +164,6 @@ TimeZone timezoneFromLocationAndTime(double lat, double lon, long unix_time){
   }
   timezone_file.close();
 
-
-  //showNum(654321);
-  //delay(1000);
   String filestring = "";
   filestring += zone;
   filestring += ".tfl";
@@ -175,8 +181,6 @@ TimeZone timezoneFromLocationAndTime(double lat, double lon, long unix_time){
       offset = transition_offset;
   }
   timezone_info_file.close();
-  //showNum(122122);
-  //delay(1000);
   return TimeZone(offset, transition_time, transition_offset);
 }
 
@@ -192,9 +196,11 @@ void resyncClock()
     saved_day = gps.date.day();
   }
 
-  if (gps.time.isValid() && saved_year)
+  if (gps.time.isValid() && saved_year && gps_serial.available() < 10)
   {
+    noInterrupts();
     clock_time.setTime(Timestamp(saved_year, saved_month, saved_day, gps.time.hour(), gps.time.minute(), gps.time.second(), gps.time.centisecond()), millis());
+    interrupts();
     initialized_time = true;
   }
 

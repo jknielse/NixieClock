@@ -51,6 +51,7 @@ ClockTime::ClockTime()
 }
 
 void ClockTime::setTime(Timestamp real_time, unsigned long arduino_time) {
+    noInterrupts();
     latest_arduino_time = arduino_time;
     latest_real_time = real_time;
 
@@ -69,10 +70,13 @@ void ClockTime::setTime(Timestamp real_time, unsigned long arduino_time) {
             saved_arduino_time_1 = latest_arduino_time;
         }
     }
+    interrupts();
 }
 
 void ClockTime::setTimeZone(TimeZone iTimezone) {
+    noInterrupts();
     timezone = iTimezone;
+    interrupts();
 }
 
 double ClockTime::clockAdjustFactor(){
