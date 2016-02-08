@@ -9,6 +9,7 @@ import struct
 import sys
 import os
 
+
 parser = argparse.ArgumentParser()
 
 parser.add_argument('-r', '--regions', default=False, action='store_true')
@@ -165,14 +166,16 @@ override_map = {
     'Pacific/Bougainville': 'Etc/GMT+11',
 }
 
+m = 0
+
 if args.regions:
     for region in tz_name_to_number:
-        print region
         if region in override_map:
             t = datetime.now(pytz.timezone(override_map[region]))
         else:
             t = datetime.now(pytz.timezone(region))
 
+        c = 1
 
         filename = '{}.tfl'.format(tz_name_to_number[region])
         transitions = []
@@ -185,9 +188,12 @@ if args.regions:
         with open(os.path.join(SD_DIR, filename), 'wb') as f:
             f.write(struct.pack('i', t.tzinfo.utcoffset(t).total_seconds()))
             for i in range(0, len(transitions)):
+                c += 2
                 # If the time transition is before now, then we really don't need to worry about it.
                 if (transition_times[i] < datetime.now()):
                     continue
                 f.write(struct.pack('i', seconds_since_epoch(transition_times[i])))
                 f.write(struct.pack('i', transitions[i][0].total_seconds() + transitions[i][1].total_seconds()))
+        m = max(c, m)
+    print m
 

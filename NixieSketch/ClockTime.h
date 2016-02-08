@@ -2,6 +2,7 @@
 #define ClockTime_h
 
 #include "Arduino.h"
+#include <limits.h>
 
 class Timestamp
 {
@@ -19,14 +20,13 @@ class Timestamp
 class TimeZone
 {
     public:
-        TimeZone(long offset_secs, long* adjust_times, long length);
+        TimeZone(long i_offset, long i_next_time, long i_next_offset);
         // Only garunteed to work if increasing times are requested.
-        unsigned long getSecs(long unix_timestamp);
+        unsigned long getSeconds(long unix_timestamp);
     private:
-        long len;
-        long* adjusts;
         long offset;
-        int index;
+        long next_time;
+        long next_offset;
 };
 
 class ClockTime
@@ -35,12 +35,13 @@ class ClockTime
         ClockTime();
         void setTime(Timestamp real_time, unsigned long arduino_time);
         void setTimeZone(TimeZone timezone);
-        long getMilliseconds();
-        long getSecs();
+        long localTime();
+        long unixTime();
         unsigned long getNextInterrupt();
     private:
+        long getMilliseconds();
         double clockAdjustFactor();
-        TimeZone timezone = TimeZone(0, 0, 0);
+        TimeZone timezone = TimeZone(0, LONG_MAX, 0);
         unsigned long latest_arduino_time;
         Timestamp latest_real_time = Timestamp(2000UL, 10UL, 1UL, 0UL, 0UL, 0UL, 0UL);
         unsigned long saved_arduino_time_1;

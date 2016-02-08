@@ -1,6 +1,9 @@
 #include "Arduino.h"
 #include "ClockTime.h"
 #include "Time.h"
+#include <SD.h>
+#include <limits.h>
+
 
 Timestamp::Timestamp(unsigned long year, unsigned long month, unsigned long day, unsigned long hours, unsigned long mins, unsigned long secs, unsigned long centisecs){
     setTime(hours, mins, secs, day, month, year);
@@ -16,31 +19,21 @@ unsigned long Timestamp::getMilliseconds(){
     return msecs;
 }
 
-unsigned long Timestamp::dayMilliseconds(){
-    unsigned long hours = hour(epoch_secs);
-    unsigned long minutes = minute(epoch_secs);
-    unsigned long seconds = second(epoch_secs);
-    return ((hours * 60UL + minutes) * 60UL + seconds) * 1000UL + msecs;
-}
-
 long operator-(Timestamp t1, Timestamp t2)
 {
      return (long)(t1.getSeconds() - t2.getSeconds()) * 1000L + (t1.getMilliseconds() - t2.getMilliseconds());
 }
 
-TimeZone::TimeZone(long offset_secs, long* adjust_times, long length)
-{
-    len = length;
-    adjusts = adjust_times;
-    offset = offset_secs;
-    index = 0;
+TimeZone::TimeZone (long i_offset, long i_next_time, long i_next_offset) {
+    offset = i_offset;
+    next_time = i_next_time;
+    next_offset = i_next_offset;
 }
 
-unsigned long TimeZone::getSecs(long unix_timestamp)
+unsigned long TimeZone::getSeconds(long unix_timestamp)
 {
-    while ((index < len) && (adjusts[index] < unix_timestamp)) {
-        offset = adjusts[index + 1];
-        index += 2;
+    if (unix_timestamp > next_time) {
+        offset = next_offset;
     }
     long t = unix_timestamp + offset;
     unsigned long hours = hour(t);
@@ -93,16 +86,19 @@ double ClockTime::clockAdjustFactor(){
 }
 
 long ClockTime::getMilliseconds() {
-    return latest_real_time.dayMilliseconds() + (unsigned long)((millis() - latest_arduino_time) * clockAdjustFactor());
+    return latest_real_time.getMilliseconds() + (unsigned long)((millis() - latest_arduino_time) * clockAdjustFactor());
 }
 
-// seconds since start of day (UTC time)
-long ClockTime::getSecs() {
-    return getMilliseconds()/1000UL;//timezone.getSecs(getMilliseconds()/1000UL);
+long ClockTime::unixTime() {
+    return latest_real_time.getSeconds() + (long)((millis() - latest_arduino_time) * clockAdjustFactor())/1000L;
+}
+
+long ClockTime::localTime() {
+    return timezone.getSeconds(unixTime());
 }
 
 // next time that the clock interrupt should fire
 unsigned long ClockTime::getNextInterrupt(){
-    return (millis() + (getMilliseconds() % 1000UL) / clockAdjustFactor());
+    return (millis() + (unsigned long)((1000UL - (getMilliseconds() % 1000UL)) / clockAdjustFactor()));
 }
 

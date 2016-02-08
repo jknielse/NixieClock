@@ -16,7 +16,8 @@ TinyGPSPlus gps;
 SoftwareSerial gps_serial(GPSRX, GPSTX);
 NixieDisplay nixie(NIXPROP, NIXCLK, NIXDATA);
 ClockTime clock_time;
-static bool initialized = false;
+static bool initialized_time = false;
+static bool initialized_timezone = false;
 static int wait_digit = 0;
 
 void setup()
@@ -44,7 +45,7 @@ void loop()
     if (gps.encode(gps_serial.read()))
       resyncClock();
 
-  if (initialized){
+  if (initialized_time && initialized_timezone){
     showTime();
   } else {
     showWaiting();
@@ -52,10 +53,10 @@ void loop()
 }
 
 void showTime(){
-  long seconds = clock_time.getSecs();
-  long s = seconds % 60;
-  long m = (seconds / 60L) % 60;
-  long h = (seconds / 3600L) % 24;
+  setTime(clock_time.localTime());
+  int s = second();
+  int m = minute();
+  int h = hour();
   nixie.push(s % 10);
   nixie.push(s / 10);
   nixie.push(m % 10);
@@ -97,6 +98,16 @@ union {
   byte ar[2];
 } intthing;
 
+union {
+  long l;
+  byte ar[4];
+} longthing;
+
+long readLong(File file) {
+  for (int i=0; i< 4; i++) longthing.ar[i] = file.read();
+  return longthing.l;
+}
+
 float readDouble(File file) {
   for (int i=0; i< 4; i++) doublething.ar[i] = file.read();
   return doublething.d;
@@ -107,11 +118,13 @@ int readInt(File file) {
   return intthing.i;
 }
 
-int timezoneOffsetFromLocation(double lat, double lon){
+TimeZone timezoneFromLocationAndTime(double lat, double lon, long unix_time){
   //First, we'll convert the latitude into a hash that will be
   //used to index into a file on the SD card:
   //For roughly 10m accuracy, we'll look at 10,000ths of a degree
   //and take the nearest integer to be our hash.
+  //showNum(123456);
+  //delay(1000);
   unsigned long sd_seek = ((lat - 90.0) / -(180.0 / 4194304.0)) - 1UL;
   sd_seek = sd_seek * 840UL;
   int zone = 0;
@@ -137,20 +150,34 @@ int timezoneOffsetFromLocation(double lat, double lon){
         zone = lastZone;
         break;
       }
+      lastZone = zonenum;
     }
   }
   timezone_file.close();
-  showNum(123456);
-  delay(500);
-  showNum(zone);
-  delay(1000);
-  
-  return zone;
 
-  //at each hash index we need to store 100 potential timezone boundaries, and 6 bytes for each one.
-  //the first 4 bytes will be a double specifying the longitudinal boundary between timezones.
-  //the next 2 bytes will be an int specifying which timezone has been entered.
-  return 0;
+
+  //showNum(654321);
+  //delay(1000);
+  String filestring = "";
+  filestring += zone;
+  filestring += ".tfl";
+
+  File timezone_info_file = SD.open(filestring);
+  long offset = readLong(timezone_info_file);
+  long transition_time = LONG_MAX;
+  long transition_offset = 0;
+  while (transition_time > 0) {
+      transition_time = readLong(timezone_info_file);
+      transition_offset = readLong(timezone_info_file);
+      if (transition_time > unix_time) {
+          break;
+      }
+      offset = transition_offset;
+  }
+  timezone_info_file.close();
+  //showNum(122122);
+  //delay(1000);
+  return TimeZone(offset, transition_time, transition_offset);
 }
 
 long saved_year = 0;
@@ -168,11 +195,12 @@ void resyncClock()
   if (gps.time.isValid() && saved_year)
   {
     clock_time.setTime(Timestamp(saved_year, saved_month, saved_day, gps.time.hour(), gps.time.minute(), gps.time.second(), gps.time.centisecond()), millis());
-    initialized = true;
+    initialized_time = true;
   }
 
-  if (gps.location.isValid()) {
-    timezoneOffsetFromLocation(37.7589, -122.4166);
+  if (gps.location.isValid() && initialized_time) {
+    clock_time.setTimeZone(timezoneFromLocationAndTime(gps.location.lat(), gps.location.lng(), clock_time.unixTime()));
+    initialized_timezone = true;
   }
   // Timezone stuff goes here
 }
