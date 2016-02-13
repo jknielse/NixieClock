@@ -2,61 +2,113 @@
 #include "NixieDisplay.h"
 #include "ClockTime.h"
 #include <SD.h>
-#include <SoftwareSerial.h>
 #include <TimerOne.h>
 #include "Time.h"
+#include "InterruptSerial.h"
 
-//static const int GPSRX = 4, GPSTX = 3;
-static const int GPSRX = 8, GPSTX = 9;
+
 static const int NIXPROP = 5, NIXCLK = 6, NIXDATA = 7;
 static const int SDCS = 4;
 
-static const uint32_t GPSBaud = 9600;
-
 TinyGPSPlus gps;
-SoftwareSerial gps_serial(GPSRX, GPSTX);
 NixieDisplay nixie(NIXPROP, NIXCLK, NIXDATA);
 ClockTime clock_time;
-static bool initialized_time = false;
-static bool initialized_timezone = false;
+
 static int wait_digit = 0;
-static unsigned long next_interrupt = 0;
+
+volatile static bool initialized_time = false;
+volatile static bool initialized_timezone = false;
+volatile static bool initialized_clock = false;
+volatile static unsigned long next_interrupt = 0;
+volatile static unsigned long next_timezone_check = 0;
+volatile static int saved_year = 0;
+volatile static int saved_month = 0;
+volatile static int saved_day = 0;
+volatile static int saved_hour = 0;
+volatile static int saved_minute = 0;
+volatile static int saved_second = 0;
+volatile static int saved_centisecond = 0;
+volatile static unsigned long saved_millis = 0;
+volatile static double saved_lat = 0;
+volatile static double saved_lon = 0;
+volatile static bool can_touch = true;
+volatile static bool can_read = true;
+
+//One thing that worked well was an 8ms timer that read one byte per interrupt.
 
 void setup()
 {
-  gps_serial.begin(GPSBaud);
-  nixie.push(10);
-  nixie.push(10);
-  nixie.push(10);
-  nixie.push(10);
-  nixie.push(10);
-  nixie.push(10);
+  for (int i = 0; i < 6; i++) {
+    nixie.push(10);
+  }
   nixie.show();
 
   if (!SD.begin(SDCS)) {
-    showNum(111111);
-    while (1) {
-      //just hang so that the issue can be diagnosed
-    }
+    err(1);
   }
 
-  Timer1.initialize(200000);
+  setCallback(encodeSerial);
+
+  startSerial();
+
+  Timer1.initialize(80000);
   Timer1.attachInterrupt(timeInterrupt);
 }
 
 void loop()
 {
-  while (gps_serial.available() > 0)
-    if (gps.encode(gps_serial.read()))
-      resyncClock();
+  resyncClock();
+}
+
+void err (int num) {
+  noInterrupts();
+  for (int i = 0; i < 6; i++) {
+    nixie.push(num);
+  }
+  nixie.show();
+  //Spin forever so the problem can be diagnosed
+  while (1) {};
 }
 
 void timeInterrupt(void) {
+  interrupts();
+  recordData();
+
   if (millis() - next_interrupt > 0) {
-    if (initialized_time && initialized_timezone){
-      showTime();
+    if (initialized_clock){
+      if (can_read) {
+        showTime();
+      }
     } else {
       showWaiting();
+    }
+  }
+}
+
+void encodeSerial(byte b) {
+  gps.encode(b);
+}
+
+void recordData() {
+  if (can_touch) {
+    if (gps.date.isValid()){
+      saved_year = gps.date.year();
+      saved_month = gps.date.month();
+      saved_day = gps.date.day();
+    }
+    if (gps.time.isValid() && saved_year)
+    {
+      saved_hour = gps.time.hour();
+      saved_minute = gps.time.minute();
+      saved_second = gps.time.second();
+      saved_centisecond = gps.time.centisecond();
+      saved_millis = millis();
+      initialized_time = true;
+    }
+    if (gps.location.isValid() && initialized_time) {
+      saved_lat = gps.location.lat();
+      saved_lon = gps.location.lng();
+      initialized_timezone = true;
     }
   }
 }
@@ -76,14 +128,6 @@ void showTime(){
   next_interrupt = clock_time.getNextInterrupt();
 }
 
-void showNum (long num){
-  for (int i = 0; i < 6; i++) {
-    nixie.push(num % 10);
-    num = num / 10;
-  }
-  nixie.show();
-}
-
 void showWaiting(){
   for (int i = 0; i < 6; i++){
     if (i == wait_digit){
@@ -95,7 +139,15 @@ void showWaiting(){
   nixie.show();
   wait_digit++;
   wait_digit = wait_digit % 10;
-  next_interrupt += 130;
+  next_interrupt += 400;
+}
+
+void showNum (long num){
+  for (int i = 0; i < 6; i++) {
+    nixie.push(num % 10);
+    num = num / 10;
+  }
+  nixie.show();
 }
 
 union {
@@ -139,17 +191,11 @@ TimeZone timezoneFromLocationAndTime(double lat, double lon, long unix_time){
   int zone = 0;
   File timezone_file = SD.open("timezone.hsh");
   if (timezone_file.size() < sd_seek) {
-    showNum(222222);
-    while (1) {
-      //just hang so that the issue can be diagnosed
-    }
+    err(2);
   }
   
   if (!timezone_file.seek(sd_seek)) {
-    showNum(333333);
-    while (1) {
-      //just hang so that the issue can be diagnosed
-    }
+    err(3);
   } else {
     int lastZone = 0;
     while (true) {
@@ -184,30 +230,25 @@ TimeZone timezoneFromLocationAndTime(double lat, double lon, long unix_time){
   return TimeZone(offset, transition_time, transition_offset);
 }
 
-long saved_year = 0;
-long saved_month = 0;
-long saved_day = 0;
-
 void resyncClock()
 {
-  if (gps.date.isValid()){
-    saved_year = gps.date.year();
-    saved_month = gps.date.month();
-    saved_day = gps.date.day();
+  if (initialized_timezone) {
+    can_touch = false;
+    unsigned long mil = saved_millis;
+    Timestamp t = Timestamp(saved_year, saved_month, saved_day, saved_hour, saved_minute, saved_second, saved_centisecond);
+    double lat = saved_lat;
+    double lon = saved_lon;
+    can_touch = true;
+    if (millis() - next_timezone_check > 0) {
+      TimeZone tz = timezoneFromLocationAndTime(lat, lon, clock_time.unixTime());
+      next_timezone_check += 900000;
+      can_read = false;
+      clock_time.setTimeZone(tz);
+    }
+    can_read = false;
+    clock_time.setTime(t, mil);
+    can_read = true;
+    initialized_clock = true;
   }
-
-  if (gps.time.isValid() && saved_year && gps_serial.available() < 10)
-  {
-    noInterrupts();
-    clock_time.setTime(Timestamp(saved_year, saved_month, saved_day, gps.time.hour(), gps.time.minute(), gps.time.second(), gps.time.centisecond()), millis());
-    interrupts();
-    initialized_time = true;
-  }
-
-  if (gps.location.isValid() && initialized_time) {
-    clock_time.setTimeZone(timezoneFromLocationAndTime(gps.location.lat(), gps.location.lng(), clock_time.unixTime()));
-    initialized_timezone = true;
-  }
-  // Timezone stuff goes here
 }
 

@@ -114,11 +114,11 @@ public:
 
    TinyGPSTime() : valid(false), updated(false), time(0)
    {}
+   uint32_t lastCommitTime;
 
 private:
    bool valid, updated;
    uint32_t time, newTime;
-   uint32_t lastCommitTime;
    void commit();
    void setTime(const char *term);
 };
@@ -134,10 +134,10 @@ public:
 
    TinyGPSDecimal() : valid(false), updated(false), val(0)
    {}
+   uint32_t lastCommitTime;
 
 private:
    bool valid, updated;
-   uint32_t lastCommitTime;
    int32_t val, newval;
    void commit();
    void set(const char *term);
