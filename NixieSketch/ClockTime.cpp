@@ -98,6 +98,6 @@ long ClockTime::localTime() {
 
 // next time that the clock interrupt should fire
 unsigned long ClockTime::getNextInterrupt(){
-    return (millis() + (unsigned long)((1000UL - (getMilliseconds() % 1000UL)) / clockAdjustFactor()));
+    return 100UL + (unsigned long)((1000UL - (getMilliseconds() % 1000UL)) / clockAdjustFactor());
 }
 

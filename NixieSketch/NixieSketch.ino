@@ -15,6 +15,7 @@ NixieDisplay nixie(NIXPROP, NIXCLK, NIXDATA);
 ClockTime clock_time;
 
 static int wait_digit = 0;
+static int wait_dir = -1;
 
 volatile static bool initialized_time = false;
 volatile static bool initialized_timezone = false;
@@ -51,7 +52,7 @@ void setup()
 
   startSerial();
 
-  Timer1.initialize(80000);
+  Timer1.initialize(200000UL);
   Timer1.attachInterrupt(timeInterrupt);
 }
 
@@ -73,15 +74,12 @@ void err (int num) {
 void timeInterrupt(void) {
   interrupts();
   recordData();
-
-  if (millis() - next_interrupt > 0) {
-    if (initialized_clock){
-      if (can_read) {
-        showTime();
-      }
-    } else {
-      showWaiting();
+  if (initialized_clock){
+    if (can_read) {
+      showTime();
     }
+  } else {
+    showWaiting();
   }
 }
 
@@ -102,7 +100,7 @@ void recordData() {
       saved_minute = gps.time.minute();
       saved_second = gps.time.second();
       saved_centisecond = gps.time.centisecond();
-      saved_millis = millis();
+      saved_millis = gps.time.lastCommitTime;
       initialized_time = true;
     }
     if (gps.location.isValid() && initialized_time) {
@@ -125,7 +123,11 @@ void showTime(){
   nixie.push(h % 10);
   nixie.push(h / 10);
   nixie.show();
-  next_interrupt = clock_time.getNextInterrupt();
+  unsigned long next = clock_time.getNextInterrupt();
+  noInterrupts();
+  Timer1.setPeriod(next * 1000UL);
+  TCNT1 = 1;
+  interrupts();
 }
 
 void showWaiting(){
@@ -137,9 +139,12 @@ void showWaiting(){
     }
   }
   nixie.show();
-  wait_digit++;
-  wait_digit = wait_digit % 10;
-  next_interrupt += 400;
+
+  if (wait_digit == 5 || wait_digit == 0) {
+    wait_dir = -wait_dir;
+  }
+
+  wait_digit += wait_dir;
 }
 
 void showNum (long num){
