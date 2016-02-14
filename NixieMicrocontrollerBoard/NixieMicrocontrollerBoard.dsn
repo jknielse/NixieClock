@@ -41,8 +41,8 @@
       (place C5 181610 -105410 front 180 (PN 22pf))
     )
     (component Capacitors_ThroughHole:C_Radial_D5_L11_P2.5
-      (place C6 133350 -105410 front 270 (PN 10uf))
-      (place C7 133350 -100330 front 90 (PN 10uf))
+      (place C6 152400 -102870 front 270 (PN 10uf))
+      (place C7 152400 -97790 front 90 (PN 10uf))
     )
     (component "Housings_DIP:DIP-28_W7.62mm_LongPads"
       (place IC1 162560 -100330 front 90 (PN "ATMEGA328-P"))
@@ -74,7 +74,7 @@
       (place Y1 184150 -111760 front 0 (PN 16MHz))
     )
     (component TO_SOT_Packages_THT:SOT126_SOT32_Housing_Vertical
-      (place U1 143510 -102870 front 270 (PN LD1117S12CTR))
+      (place U1 140335 -100330 front 270 (PN LD1117S12CTR))
     )
   )
   (library
@@ -531,8 +531,8 @@
       "Net-(IC1-Pad17)" "Net-(IC1-Pad18)" "Net-(IC1-Pad19)" "Net-(IC1-Pad2)"
       "Net-(IC1-Pad23)" "Net-(IC1-Pad24)" "Net-(IC1-Pad25)" "Net-(IC1-Pad26)"
       "Net-(IC1-Pad27)" "Net-(IC1-Pad28)" "Net-(IC1-Pad3)" "Net-(IC1-Pad4)"
-      "Net-(IC1-Pad5)" "Net-(IC1-Pad6)" "Net-(P1-Pad3)" "Net-(P3-Pad3)" "Net-(P3-Pad4)"
-      "Net-(P3-Pad5)" "Net-(P3-Pad6)" "Net-(P3-Pad8)" VCC VDD
+      "Net-(IC1-Pad5)" "Net-(IC1-Pad6)" "Net-(P1-Pad3)" "Net-(P3-Pad8)" VCC
+      VDD
       (circuit
         (use_via Via[0-1]_700:400_um)
       )
