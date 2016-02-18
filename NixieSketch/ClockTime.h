@@ -21,7 +21,7 @@ class TimeZone
     public:
         TimeZone(long i_offset, unsigned long i_next_time, long i_next_offset);
         // Only garunteed to work if increasing times are requested.
-        unsigned long getSeconds(long unix_timestamp);
+        unsigned long getSeconds(unsigned long unix_timestamp);
     private:
         long offset;
         unsigned long next_time;
@@ -34,8 +34,8 @@ class ClockTime
         ClockTime();
         void setTime(Timestamp real_time, unsigned long arduino_time);
         void setTimeZone(TimeZone timezone);
-        long localTime();
-        long unixTime();
+        unsigned long localTime();
+        unsigned long unixTime();
         unsigned long getNextInterrupt();
     private:
         long getMilliseconds();

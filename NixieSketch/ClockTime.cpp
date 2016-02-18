@@ -29,12 +29,12 @@ TimeZone::TimeZone (long i_offset, unsigned long i_next_time, long i_next_offset
     next_offset = i_next_offset;
 }
 
-unsigned long TimeZone::getSeconds(long unix_timestamp)
+unsigned long TimeZone::getSeconds(unsigned long unix_timestamp)
 {
     if (unix_timestamp > next_time) {
         offset = next_offset;
     }
-    long t = unix_timestamp + offset;
+    unsigned long t = unix_timestamp + offset;
     unsigned long hours = hour(t);
     unsigned long minutes = minute(t);
     unsigned long seconds = second(t);
@@ -88,11 +88,11 @@ long ClockTime::getMilliseconds() {
     return latest_real_time.getMilliseconds() + (unsigned long)((millis() - latest_arduino_time) * clockAdjustFactor());
 }
 
-long ClockTime::unixTime() {
+unsigned long ClockTime::unixTime() {
     return latest_real_time.getSeconds() + (long)((millis() - latest_arduino_time) * clockAdjustFactor())/1000L;
 }
 
-long ClockTime::localTime() {
+unsigned long ClockTime::localTime() {
     return timezone.getSeconds(unixTime());
 }
 
