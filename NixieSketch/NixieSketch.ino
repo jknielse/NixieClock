@@ -21,7 +21,6 @@ volatile static bool initialized_time = false;
 volatile static bool initialized_timezone = false;
 volatile static bool initialized_clock = false;
 volatile static unsigned long next_interrupt = 0;
-volatile static unsigned long next_timezone_check = 0;
 volatile static int saved_year = 0;
 volatile static int saved_month = 0;
 volatile static int saved_day = 0;
@@ -269,13 +268,9 @@ void resyncClock()
     double lat = saved_lat;
     double lon = saved_lon;
     can_touch = true;
-    if (millis() - next_timezone_check > 0) {
-      TimeZone tz = timezoneFromLocationAndTime(lat, lon, clock_time.unixTime());
-      next_timezone_check += 900000;
-      can_read = false;
-      clock_time.setTimeZone(tz);
-    }
+    TimeZone tz = timezoneFromLocationAndTime(lat, lon, clock_time.unixTime());
     can_read = false;
+    clock_time.setTimeZone(tz);
     clock_time.setTime(t, mil);
     can_read = true;
     initialized_clock = true;
