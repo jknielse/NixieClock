@@ -9,12 +9,11 @@ class Timestamp
     public:
         Timestamp(unsigned long year, unsigned long month, unsigned long day, unsigned long hours, unsigned long mins, unsigned long secs, unsigned long centisecs);
         unsigned long getSeconds();
-        unsigned long dayMilliseconds();
-        unsigned long getMilliseconds();
+        long getMilliseconds();
         friend long operator-(Timestamp t1, Timestamp t2);
     private:
-        long epoch_secs;
-        unsigned long msecs;
+        unsigned long epoch_secs;
+        long msecs;
 };
 
 class TimeZone

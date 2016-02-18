@@ -14,7 +14,7 @@ unsigned long Timestamp::getSeconds(){
     return epoch_secs;
 }
 
-unsigned long Timestamp::getMilliseconds(){
+long Timestamp::getMilliseconds(){
     return msecs;
 }
 
