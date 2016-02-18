@@ -19,12 +19,12 @@ class Timestamp
 class TimeZone
 {
     public:
-        TimeZone(long i_offset, long i_next_time, long i_next_offset);
+        TimeZone(long i_offset, unsigned long i_next_time, long i_next_offset);
         // Only garunteed to work if increasing times are requested.
         unsigned long getSeconds(long unix_timestamp);
     private:
         long offset;
-        long next_time;
+        unsigned long next_time;
         long next_offset;
 };
 

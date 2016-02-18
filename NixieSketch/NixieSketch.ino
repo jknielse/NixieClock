@@ -170,9 +170,19 @@ union {
   byte ar[4];
 } longthing;
 
+union {
+  unsigned long l;
+  byte ar[4];
+} ulongthing;
+
 long readLong(File file) {
   for (int i=0; i< 4; i++) longthing.ar[i] = file.read();
   return longthing.l;
+}
+
+unsigned long readULong(File file) {
+  for (int i=0; i< 4; i++) ulongthing.ar[i] = file.read();
+  return ulongthing.l;
 }
 
 float readDouble(File file) {
@@ -236,10 +246,10 @@ TimeZone timezoneFromLocationAndTime(double lat, double lon, long unix_time){
 
   File timezone_info_file = SD.open(filestring);
   long offset = readLong(timezone_info_file);
-  long transition_time = LONG_MAX;
+  unsigned long transition_time = LONG_MAX;
   long transition_offset = 0;
   while (transition_time > 0) {
-      transition_time = readLong(timezone_info_file);
+      transition_time = readULong(timezone_info_file);
       transition_offset = readLong(timezone_info_file);
       if (transition_time > unix_time) {
           break;

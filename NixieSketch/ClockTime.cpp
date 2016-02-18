@@ -23,7 +23,7 @@ long operator-(Timestamp t1, Timestamp t2)
      return (long)(t1.getSeconds() - t2.getSeconds()) * 1000L + (t1.getMilliseconds() - t2.getMilliseconds());
 }
 
-TimeZone::TimeZone (long i_offset, long i_next_time, long i_next_offset) {
+TimeZone::TimeZone (long i_offset, unsigned long i_next_time, long i_next_offset) {
     offset = i_offset;
     next_time = i_next_time;
     next_offset = i_next_offset;

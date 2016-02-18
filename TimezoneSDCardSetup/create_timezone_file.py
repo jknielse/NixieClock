@@ -192,7 +192,7 @@ if args.regions:
                 # If the time transition is before now, then we really don't need to worry about it.
                 if (transition_times[i] < datetime.now()):
                     continue
-                f.write(struct.pack('i', seconds_since_epoch(transition_times[i])))
+                f.write(struct.pack('I', seconds_since_epoch(transition_times[i])))
                 f.write(struct.pack('i', transitions[i][0].total_seconds() + transitions[i][1].total_seconds()))
         m = max(c, m)
     print m
