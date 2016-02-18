@@ -61,7 +61,7 @@ void ClockTime::setTime(Timestamp real_time, unsigned long arduino_time) {
         saved_real_time_2 = latest_real_time;
     } else {
         // If the newer of the two saved times is older than a day
-        if ((long)(latest_real_time - saved_real_time_1) > 86400000L){
+        if ((latest_real_time - saved_real_time_1) > 86400000UL){
             saved_real_time_2 = saved_real_time_1;
             saved_arduino_time_2 = saved_arduino_time_1;
             saved_real_time_1 = latest_real_time;
