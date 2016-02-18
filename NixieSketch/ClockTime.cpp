@@ -75,10 +75,10 @@ void ClockTime::setTimeZone(TimeZone iTimezone) {
 }
 
 double ClockTime::clockAdjustFactor(){
-    long real_elapsed_time = latest_real_time - saved_real_time_2;
-    long arduino_elapsed_time = latest_arduino_time - saved_arduino_time_2;
+    unsigned long real_elapsed_time = latest_real_time - saved_real_time_2;
+    unsigned long arduino_elapsed_time = latest_arduino_time - saved_arduino_time_2;
     // If more than half a minute has elapsed, we might have a chance of getting a reasonable measurement here.
-    if (real_elapsed_time > 30000L){
+    if (real_elapsed_time > 30000UL){
         return (double)real_elapsed_time / (double)arduino_elapsed_time;
     }
     return 1.0;
