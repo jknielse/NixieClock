@@ -89,7 +89,7 @@ long ClockTime::getMilliseconds() {
 }
 
 unsigned long ClockTime::unixTime() {
-    return latest_real_time.getSeconds() + (long)((millis() - latest_arduino_time) * clockAdjustFactor())/1000L;
+    return latest_real_time.getSeconds() + (unsigned long)((millis() - latest_arduino_time) * clockAdjustFactor())/1000UL;
 }
 
 unsigned long ClockTime::localTime() {
