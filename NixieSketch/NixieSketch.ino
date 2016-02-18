@@ -215,9 +215,24 @@ TimeZone timezoneFromLocationAndTime(double lat, double lon, long unix_time){
   }
   timezone_file.close();
 
-  String filestring = "";
-  filestring += zone;
-  filestring += ".tfl";
+  char filestring[9];
+  int i = 9;
+  while (zone > 0) {
+    i--;
+    filestring[i] = (char)((int)'0' + (zone % 10));
+    zone /= 10;
+  }
+  int i2 = 0;
+  while (i < 9) {
+    filestring[i2] = filestring[i];
+    i++;
+    i2++;
+  }
+  filestring[i2] = '.';
+  filestring[i2 + 1] = 't';
+  filestring[i2 + 2] = 'f';
+  filestring[i2 + 3] = 'l';
+  filestring[i2 + 4] = 0;
 
   File timezone_info_file = SD.open(filestring);
   long offset = readLong(timezone_info_file);
