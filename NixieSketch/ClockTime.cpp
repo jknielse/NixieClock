@@ -84,7 +84,7 @@ double ClockTime::clockAdjustFactor(){
     return 1.0;
 }
 
-long ClockTime::getMilliseconds() {
+unsigned long ClockTime::getMilliseconds() {
     return latest_real_time.getMilliseconds() + (unsigned long)((millis() - latest_arduino_time) * clockAdjustFactor());
 }
 

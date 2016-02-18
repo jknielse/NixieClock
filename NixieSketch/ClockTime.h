@@ -38,7 +38,7 @@ class ClockTime
         unsigned long unixTime();
         unsigned long getNextInterrupt();
     private:
-        long getMilliseconds();
+        unsigned long getMilliseconds();
         double clockAdjustFactor();
         TimeZone timezone = TimeZone(0, LONG_MAX, 0);
         unsigned long latest_arduino_time;
