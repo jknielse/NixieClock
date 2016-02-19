@@ -14,13 +14,12 @@ TinyGPSPlus gps;
 NixieDisplay nixie(NIXPROP, NIXCLK, NIXDATA);
 ClockTime clock_time;
 
-static int wait_digit = 0;
-static int wait_dir = -1;
+volatile static int wait_digit = 0;
+volatile static int wait_dir = -1;
 
 volatile static bool initialized_time = false;
 volatile static bool initialized_timezone = false;
 volatile static bool initialized_clock = false;
-volatile static unsigned long next_interrupt = 0;
 volatile static int saved_year = 0;
 volatile static int saved_month = 0;
 volatile static int saved_day = 0;
@@ -57,7 +56,17 @@ void setup()
 
 void loop()
 {
-  resyncClock();
+  if (initialized_timezone) {
+    can_touch = false;
+    Timestamp t = Timestamp(saved_year, saved_month, saved_day, saved_hour, saved_minute, saved_second, saved_centisecond);
+    can_touch = true;
+    TimeZone tz = timezoneFromLocationAndTime(saved_lat, saved_lon, clock_time.unixTime());
+    can_read = false;
+    clock_time.setTimeZone(tz);
+    clock_time.setTime(t, saved_millis);
+    can_read = true;
+    initialized_clock = true;
+  }
 }
 
 void err (int num) {
@@ -122,9 +131,8 @@ void showTime(){
   nixie.push(h % 10);
   nixie.push(h / 10);
   nixie.show();
-  unsigned long next = clock_time.getNextInterrupt();
   noInterrupts();
-  Timer1.setPeriod(next * 1000UL);
+  Timer1.setPeriod(clock_time.getNextInterrupt() * 1000UL);
   TCNT1 = 1;
   interrupts();
 }
@@ -203,7 +211,7 @@ TimeZone timezoneFromLocationAndTime(double lat, double lon, long unix_time){
   unsigned long sd_seek = ((lat - 90.0) / -(180.0 / 4194304.0)) - 1UL;
   sd_seek = sd_seek * 840UL;
   int zone = 0;
-  File timezone_file = SD.open("timezone.hsh");
+  File timezone_file = SD.open(F("timezone.hsh"));
   if (timezone_file.size() < sd_seek) {
     err(2);
   }
@@ -257,23 +265,5 @@ TimeZone timezoneFromLocationAndTime(double lat, double lon, long unix_time){
   }
   timezone_info_file.close();
   return TimeZone(offset, transition_time, transition_offset);
-}
-
-void resyncClock()
-{
-  if (initialized_timezone) {
-    can_touch = false;
-    unsigned long mil = saved_millis;
-    Timestamp t = Timestamp(saved_year, saved_month, saved_day, saved_hour, saved_minute, saved_second, saved_centisecond);
-    double lat = saved_lat;
-    double lon = saved_lon;
-    can_touch = true;
-    TimeZone tz = timezoneFromLocationAndTime(lat, lon, clock_time.unixTime());
-    can_read = false;
-    clock_time.setTimeZone(tz);
-    clock_time.setTime(t, mil);
-    can_read = true;
-    initialized_clock = true;
-  }
 }
 
