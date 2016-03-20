@@ -28,6 +28,7 @@ volatile static int saved_minute = 0;
 volatile static int saved_second = 0;
 volatile static int saved_centisecond = 0;
 volatile static unsigned long saved_millis = 0;
+volatile static unsigned long last_millis = 0;
 volatile static double saved_lat = 0;
 volatile static double saved_lon = 0;
 volatile static bool can_touch = true;
@@ -56,7 +57,7 @@ void setup()
 
 void loop()
 {
-  if (initialized_timezone) {
+  if (initialized_timezone && (last_millis != saved_millis)) {
     can_touch = false;
     Timestamp t = Timestamp(saved_year, saved_month, saved_day, saved_hour, saved_minute, saved_second, saved_centisecond);
     can_touch = true;
@@ -66,6 +67,7 @@ void loop()
     clock_time.setTime(t, saved_millis);
     can_read = true;
     initialized_clock = true;
+    last_millis = saved_millis;
   }
 }
 
