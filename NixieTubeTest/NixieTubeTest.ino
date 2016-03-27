@@ -16,12 +16,11 @@ void setup()
 
 void loop()
 {
-    nixie.push(1);
-    nixie.push(2);
-    nixie.push(3);
-    nixie.push(4);
-    nixie.push(5);
-    nixie.push(6);
+  for (int i = 0; i < 10; i++) {
+    for (int k = 0; k < 6; k++) {
+      nixie.push(i);
+    }
     nixie.show();
     delay(1000);
+  }
 }

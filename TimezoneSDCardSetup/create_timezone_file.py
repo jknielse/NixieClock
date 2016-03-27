@@ -149,8 +149,8 @@ if args.map:
                 c += 1
             if c > 140:
                 # Note to self: 136 seems to be the most we hit.
-                print 'Crap, there are too many timezone changes in this slice.'
-                print c
+                print ('Crap, there are too many timezone changes in this slice.')
+                print (c)
                 exit(1)
         print
 
@@ -165,6 +165,18 @@ override_map = {
     'Asia/Chita': 'Etc/GMT+8',
     'Pacific/Bougainville': 'Etc/GMT+11',
 }
+
+# ourtz = datetime.now(pytz.timezone('America/Los_Angeles')).tzinfo
+
+
+# for i in range(140, 180):
+#     print round(seconds_since_epoch(ourtz._utc_transition_times[i]))
+#     print ":".join("{:02x}".format(ord(c)) for c in struct.pack('I', round(seconds_since_epoch(ourtz._utc_transition_times[i]))))
+
+# print
+# ind = 141
+# pprint.PrettyPrinter().pprint(seconds_since_epoch(ourtz._utc_transition_times[ind]))
+# pprint.PrettyPrinter().pprint(ourtz._transition_info[ind][0].total_seconds() + ourtz._transition_info[ind][1].total_seconds())
 
 m = 0
 
@@ -186,14 +198,16 @@ if args.regions:
             transition_times = t.tzinfo._utc_transition_times
 
         with open(os.path.join(SD_DIR, filename), 'wb') as f:
-            f.write(struct.pack('i', t.tzinfo.utcoffset(t).total_seconds()))
+            f.write(struct.pack('i', int(t.tzinfo.utcoffset(t).total_seconds())))
             for i in range(0, len(transitions)):
                 c += 2
                 # If the time transition is before now, then we really don't need to worry about it.
+                if (transition_times[i] < datetime.utcfromtimestamp(0)):
+                    continue
                 if (transition_times[i] < datetime.now()):
                     continue
-                f.write(struct.pack('I', seconds_since_epoch(transition_times[i])))
-                f.write(struct.pack('i', transitions[i][0].total_seconds() + transitions[i][1].total_seconds()))
+                f.write(struct.pack('I', int(seconds_since_epoch(transition_times[i]))))
+                f.write(struct.pack('i', int(transitions[i][0].total_seconds())))
         m = max(c, m)
-    print m
+    print (m)
 

@@ -19,6 +19,7 @@ volatile static int wait_dir = -1;
 
 volatile static bool initialized_time = false;
 volatile static bool initialized_timezone = false;
+volatile static bool should_do_timezone = false;
 volatile static bool initialized_clock = false;
 volatile static int saved_year = 0;
 volatile static int saved_month = 0;
@@ -61,12 +62,20 @@ void loop()
     can_touch = false;
     Timestamp t = Timestamp(saved_year, saved_month, saved_day, saved_hour, saved_minute, saved_second, saved_centisecond);
     can_touch = true;
-    TimeZone tz = timezoneFromLocationAndTime(saved_lat, saved_lon, clock_time.unixTime());
+    TimeZone tz = TimeZone(0, LONG_MAX, 0);
+    if (should_do_timezone) {
+      tz = timezoneFromLocationAndTime(saved_lat, saved_lon, clock_time.unixTime());
+    }
     can_read = false;
-    clock_time.setTimeZone(tz);
+    if (should_do_timezone) {
+      clock_time.setTimeZone(tz);
+    }
     clock_time.setTime(t, saved_millis);
     can_read = true;
-    initialized_clock = true;
+    if (should_do_timezone) {
+      initialized_clock = true;
+    }
+    should_do_timezone = true;
     last_millis = saved_millis;
   }
 }
@@ -164,6 +173,18 @@ void showNum (long num){
   nixie.show();
 }
 
+void slowPrint (unsigned long num) {
+  showNum(0);
+  delay(1000);
+  while (num) {
+    nixie.push(num % 10);
+    num = num / 10;
+    nixie.show();
+    delay(1000);
+  }
+  delay(5000);
+}
+
 union {
   double d;
   byte ar[4];
@@ -204,7 +225,7 @@ int readInt(File file) {
   return intthing.i;
 }
 
-TimeZone timezoneFromLocationAndTime(double lat, double lon, long unix_time){
+TimeZone timezoneFromLocationAndTime(double lat, double lon, unsigned long unix_time){
   //First, we'll convert the latitude into a hash that will be
   //used to index into a file on the SD card:
   //For roughly 10m accuracy, we'll look at 10,000ths of a degree
@@ -236,6 +257,7 @@ TimeZone timezoneFromLocationAndTime(double lat, double lon, long unix_time){
 
   char filestring[9];
   int i = 9;
+  int newzone = zone;
   while (zone > 0) {
     i--;
     filestring[i] = (char)((int)'0' + (zone % 10));
@@ -255,9 +277,11 @@ TimeZone timezoneFromLocationAndTime(double lat, double lon, long unix_time){
 
   File timezone_info_file = SD.open(filestring);
   long offset = readLong(timezone_info_file);
-  unsigned long transition_time = LONG_MAX;
+  unsigned long transition_time = ULONG_MAX;
   long transition_offset = 0;
+  int test = 0;
   while (transition_time > 0) {
+      test++;
       transition_time = readULong(timezone_info_file);
       transition_offset = readLong(timezone_info_file);
       if (transition_time > unix_time) {
