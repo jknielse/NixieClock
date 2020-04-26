@@ -1,10 +1,10 @@
 #include "TinyGPS++.h"
 #include "NixieDisplay.h"
 #include "ClockTime.h"
+#include <SPI.h>
 #include <SD.h>
 #include <TimerOne.h>
 #include "Time.h"
-#include "InterruptSerial.h"
 
 
 static const int NIXPROP = 5, NIXCLK = 6, NIXDATA = 7;
@@ -44,20 +44,26 @@ void setup()
   }
   nixie.show();
 
+  showNum(111111);
+  delay(5000);
+  
   if (!SD.begin(SDCS)) {
     err(1);
   }
 
-  setCallback(encodeSerial);
-
-  startSerial();
-
-  Timer1.initialize(200000UL);
+  Serial.begin(9600);
+  Timer1.initialize(500000);
   Timer1.attachInterrupt(timeInterrupt);
 }
 
 void loop()
 {
+  while (Serial.available() > 0) {
+    gps.encode(Serial.read());
+  }
+  
+  recordData();
+
   if (initialized_timezone && (last_millis != saved_millis)) {
     can_touch = false;
     Timestamp t = Timestamp(saved_year, saved_month, saved_day, saved_hour, saved_minute, saved_second, saved_centisecond);
@@ -91,7 +97,6 @@ void err (int num) {
 }
 
 void timeInterrupt(void) {
-  interrupts();
   recordData();
   if (initialized_clock){
     if (can_read) {
@@ -205,6 +210,7 @@ union {
   byte ar[4];
 } ulongthing;
 
+
 long readLong(File file) {
   for (int i=0; i< 4; i++) longthing.ar[i] = file.read();
   return longthing.l;
@@ -226,6 +232,7 @@ int readInt(File file) {
 }
 
 TimeZone timezoneFromLocationAndTime(double lat, double lon, unsigned long unix_time){
+  //return TimeZone(0, LONG_MAX, 0);
   //First, we'll convert the latitude into a hash that will be
   //used to index into a file on the SD card:
   //For roughly 10m accuracy, we'll look at 10,000ths of a degree
@@ -292,4 +299,3 @@ TimeZone timezoneFromLocationAndTime(double lat, double lon, unsigned long unix_
   timezone_info_file.close();
   return TimeZone(offset, transition_time, transition_offset);
 }
-
